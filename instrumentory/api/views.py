@@ -366,6 +366,13 @@ def getAllLoanInfo(request):
 
 @api_view(['PUT'])
 def updateLoanInfo(request, pk):
+    
+    def formatDate(date):
+        if date == '':
+            return None
+        else:
+            return date 
+    
     data = request.data
     instrument = Instrument.objects.get(id=pk)
     current_loan_info_id = instrument.current_loan_info.id
@@ -378,8 +385,8 @@ def updateLoanInfo(request, pk):
     current_loan_info.parent_last_name = data['parent_last_name']
     current_loan_info.parent_email = data['parent_email']
     current_loan_info.parent_phone = data['parent_phone']
-    current_loan_info.loan_start = data['loan_start']
-    current_loan_info.loan_end = data['loan_end']
+    current_loan_info.loan_start = formatDate(data['loan_start'])
+    current_loan_info.loan_end = formatDate(data['loan_end'])
     current_loan_info.accept_contract = data['accept_contract']
     
     current_loan_info.save()

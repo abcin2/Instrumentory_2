@@ -93,6 +93,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             setSwab(data.accessories.instrument_swab);
             document.getElementById('swab').checked = data.accessories.instrument_swab;
             // Loan Info
+            setLoanInfo(data.current_loan_info);
             setStudentFirstName(data.current_loan_info.student_first_name);
             document.getElementById('student_first_name').value = data.current_loan_info.student_first_name;
             setStudentLastName(data.current_loan_info.student_last_name);
@@ -184,8 +185,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
         e.preventDefault();
         setDisabled(true)
 
-        console.log(process.env.REACT_APP_DATABASE_HOST)
-
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/update/`, {
             method: 'PUT',
             headers: {
@@ -216,6 +215,16 @@ function UpdateInstrument() { // will probably need to add every state variable 
             setDisabled(false);
         } else {
             console.log(response);
+        }
+    }
+
+    const archiveLoanInfo = async (e) => {
+        if (!loanEnd) {
+            alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
+            // archive loan info here
+        } else {
+            alert('Are you sure you would like to archive this information? This will reset the form.')
+            // archive loan info here
         }
     }
 
@@ -287,6 +296,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             <div id="add-instrument-header">
                 <h1>Update {instrumentType}: {instrumentSerial}</h1>
             </div>
+            {/* INSTRUMENT */}
             <div id="instrument">
                 <div id="instrument-info">
                     <div id="disabled-instrument-form" className='card'> {/* NEED TO REMOVE 'DISPLAY-NONE' WHEN DONE */}
@@ -371,8 +381,11 @@ function UpdateInstrument() { // will probably need to add every state variable 
                             </div>
                             </div>
                         </fieldset>
+                        <div id="loan-info-archive-div">
+                            <button disabled={loanStart ? disabled : true} id="return-instrument-button" className='button button-primary' onClick={archiveLoanInfo}>Return Instrument</button>
+                        </div>
                         <div id='loan-info-submit-div'>
-                            <button disabled={disabled} id="update-loan-info-button" className='button button-success' onClick={editedLoanFormDisabled ? showEditLoanForm : updateLoanInfo}>Update Repair Info</button>
+                            <button disabled={disabled} id="update-loan-info-button" className='button button-success' onClick={editedLoanFormDisabled ? showEditLoanForm : updateLoanInfo}>Update Loan Info</button>
                         </div>
                     </form>
                 </div>
