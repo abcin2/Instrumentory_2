@@ -393,6 +393,51 @@ def updateLoanInfo(request, pk):
     
     return Response('Loan Info successfully updated!')
     
+@api_view(['PUT'])
+def archiveLoanInfo(request, pk):
+    
+    def formatDate(date):
+        if date == '':
+            return None
+        else:
+            return date 
+    
+    data = request.data
+    instrument = Instrument.objects.get(id=pk)
+    current_loan_info_id = instrument.current_loan_info.id
+    current_loan_info = CurrentLoanInfo.objects.get(id=current_loan_info_id)
+    
+    prev_loan_info = PreviousLoanInfo.objects.create(
+        instrument = instrument,
+        student_first_name = data['student_first_name'],
+        student_last_name = data['student_last_name'],
+        student_email = data['student_email'],
+        parent_first_name = data['parent_first_name'],
+        parent_last_name = data['parent_last_name'],
+        parent_email = data['parent_email'],
+        parent_phone = data['parent_phone'],
+        loan_start = formatDate(data['loan_start']),
+        is_returned = True, # the idea here is that if the info is being archived, the student has already returned the instrument
+        loan_end = formatDate(data['loan_end']),
+        accept_contract = data['accept_contract']
+    )
+    
+    current_loan_info.student_first_name = None 
+    current_loan_info.student_last_name = None 
+    current_loan_info.student_email = None 
+    current_loan_info.parent_first_name = None 
+    current_loan_info.parent_last_name = None 
+    current_loan_info.parent_email = None 
+    current_loan_info.parent_phone = None 
+    current_loan_info.loan_start = None 
+    current_loan_info.loan_end = None 
+    current_loan_info.accept_contract = None
+    
+    repair_info_serializer = RepairInfoSerializer(prev_loan_info, many=False)
+    
+    current_loan_info.save()
+    
+    return Response(repair_info_serializer.data)
 
 ### REPAIR INFO VIEWS ###
 #########################

@@ -221,7 +221,43 @@ function UpdateInstrument() { // will probably need to add every state variable 
     const archiveLoanInfo = async (e) => {
         if (!loanEnd) {
             alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
-            // archive loan info here
+            e.preventDefault();
+            setDisabled(true)
+    
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/archive/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id': id,
+                    'student_first_name': studentFirstName,
+                    'student_last_name': studentLastName,
+                    'student_email': studentEmail,
+                    'parent_first_name': parentFirstName,
+                    'parent_last_name': parentLastName,
+                    'parent_email': parentEmail,
+                    'parent_phone': parentPhone,
+                    'loan_start': loanStart,
+                    'loan_end': loanEnd,
+                    'accept_contract': contractAccepted
+                })
+            })
+            if (response.ok) {
+                console.log('Loan Info archived successfully!');
+                let fieldset_inputs = document.getElementById('loan-fieldset-inputs');
+                let update_loan_info_button = document.getElementById('update-loan-info-button');
+                let loan_info_form = document.getElementById('form-loan-info');
+    
+                fieldset_inputs.disabled = true;
+                update_loan_info_button.innerHTML = 'Edit Loan Info';
+                setEditedLoanFormDisabled(true);
+                setDisabled(false);
+                // clear values in form, because python view, removes the info from the db
+                loan_info_form.reset()
+            } else {
+                console.log(response);
+            }
         } else {
             alert('Are you sure you would like to archive this information? This will reset the form.')
             // archive loan info here
@@ -363,7 +399,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             {/* LOAN INFO */}
             <div id="all-loan-info">
                 <div id="loan-info-form" className='card'> {/* DISPLAY WHEN BUTTON IS CLICKED */}
-                    <form onSubmit={updateLoanInfo}>
+                    <form id="form-loan-info" onSubmit={updateLoanInfo}>
                         <fieldset id="loan-fieldset-inputs" disabled>
                             <input id="student_first_name" type="text" className='input-text login-input loan-input' placeholder='Student First Name' onChange={e => setStudentFirstName(e.target.value)}/>
                             <input id="student_last_name" type="text" className='input-text login-input loan-input' placeholder='Student Last Name' onChange={e => setStudentLastName(e.target.value)}/>

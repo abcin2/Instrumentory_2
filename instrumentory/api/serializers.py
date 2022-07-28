@@ -79,7 +79,7 @@ class InstrumentSerializer(ModelSerializer):
     
     accessories = AccessoriesSerializer(many=False)
     current_loan_info = CurrentLoanInfoSerializer(many=False)
-    previous_loan_info = PreviousLoanInfo
+    previous_loan_info = PreviousLoanInfoSerializer(many=True)
     repair_info = RepairInfoSerializer(many=False)
     user = UserSerializer(many=False)
     
