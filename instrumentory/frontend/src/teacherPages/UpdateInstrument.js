@@ -219,11 +219,8 @@ function UpdateInstrument() { // will probably need to add every state variable 
     }
 
     const archiveLoanInfo = async (e) => {
-        if (!loanEnd) {
-            alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
-            e.preventDefault();
-            setDisabled(true)
-    
+
+        const archive = async () => {
             let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/archive/`, {
                 method: 'PUT',
                 headers: {
@@ -254,13 +251,33 @@ function UpdateInstrument() { // will probably need to add every state variable 
                 setEditedLoanFormDisabled(true);
                 setDisabled(false);
                 // clear values in form, because python view, removes the info from the db
+                setStudentFirstName('');
+                setStudentLastName('');
+                setStudentEmail('');
+                setParentFirstName('');
+                setParentLastName('');
+                setParentEmail('');
+                setParentPhone('');
+                setLoanStart('');
+                setLoanEnd('');
+                setContractAccepted('');
                 loan_info_form.reset()
             } else {
                 console.log(response);
             }
+        }
+
+        if (!loanEnd) {
+            alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
+            e.preventDefault();
+            setDisabled(true)
+
+            archive()
+    
         } else {
             alert('Are you sure you would like to archive this information? This will reset the form.')
-            // archive loan info here
+            
+            archive()
         }
     }
 
