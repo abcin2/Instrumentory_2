@@ -93,6 +93,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             setSwab(data.accessories.instrument_swab);
             document.getElementById('swab').checked = data.accessories.instrument_swab;
             // Loan Info
+            setLoanInfo(data.current_loan_info);
             setStudentFirstName(data.current_loan_info.student_first_name);
             document.getElementById('student_first_name').value = data.current_loan_info.student_first_name;
             setStudentLastName(data.current_loan_info.student_last_name);
@@ -184,8 +185,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
         e.preventDefault();
         setDisabled(true)
 
-        console.log(process.env.REACT_APP_DATABASE_HOST)
-
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/update/`, {
             method: 'PUT',
             headers: {
@@ -216,6 +215,69 @@ function UpdateInstrument() { // will probably need to add every state variable 
             setDisabled(false);
         } else {
             console.log(response);
+        }
+    }
+
+    const archiveLoanInfo = async (e) => {
+
+        const archive = async () => {
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/archive/`, {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    'id': id,
+                    'student_first_name': studentFirstName,
+                    'student_last_name': studentLastName,
+                    'student_email': studentEmail,
+                    'parent_first_name': parentFirstName,
+                    'parent_last_name': parentLastName,
+                    'parent_email': parentEmail,
+                    'parent_phone': parentPhone,
+                    'loan_start': loanStart,
+                    'loan_end': loanEnd,
+                    'accept_contract': contractAccepted
+                })
+            })
+            if (response.ok) {
+                console.log('Loan Info archived successfully!');
+                let fieldset_inputs = document.getElementById('loan-fieldset-inputs');
+                let update_loan_info_button = document.getElementById('update-loan-info-button');
+                let loan_info_form = document.getElementById('form-loan-info');
+    
+                fieldset_inputs.disabled = true;
+                update_loan_info_button.innerHTML = 'Edit Loan Info';
+                setEditedLoanFormDisabled(true);
+                setDisabled(false);
+                // clear values in form, because python view, removes the info from the db
+                setStudentFirstName('');
+                setStudentLastName('');
+                setStudentEmail('');
+                setParentFirstName('');
+                setParentLastName('');
+                setParentEmail('');
+                setParentPhone('');
+                setLoanStart('');
+                setLoanEnd('');
+                setContractAccepted('');
+                loan_info_form.reset()
+            } else {
+                console.log(response);
+            }
+        }
+
+        if (!loanEnd) {
+            alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
+            e.preventDefault();
+            setDisabled(true)
+
+            archive()
+    
+        } else {
+            alert('Are you sure you would like to archive this information? This will reset the form.')
+            
+            archive()
         }
     }
 
@@ -287,6 +349,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             <div id="add-instrument-header">
                 <h1>Update {instrumentType}: {instrumentSerial}</h1>
             </div>
+            {/* INSTRUMENT */}
             <div id="instrument">
                 <div id="instrument-info">
                     <div id="disabled-instrument-form" className='card'> {/* NEED TO REMOVE 'DISPLAY-NONE' WHEN DONE */}
@@ -353,7 +416,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             {/* LOAN INFO */}
             <div id="all-loan-info">
                 <div id="loan-info-form" className='card'> {/* DISPLAY WHEN BUTTON IS CLICKED */}
-                    <form onSubmit={updateLoanInfo}>
+                    <form id="form-loan-info" onSubmit={updateLoanInfo}>
                         <fieldset id="loan-fieldset-inputs" disabled>
                             <input id="student_first_name" type="text" className='input-text login-input loan-input' placeholder='Student First Name' onChange={e => setStudentFirstName(e.target.value)}/>
                             <input id="student_last_name" type="text" className='input-text login-input loan-input' placeholder='Student Last Name' onChange={e => setStudentLastName(e.target.value)}/>
@@ -371,8 +434,11 @@ function UpdateInstrument() { // will probably need to add every state variable 
                             </div>
                             </div>
                         </fieldset>
+                        <div id="loan-info-archive-div">
+                            <button disabled={loanStart ? disabled : true} id="return-instrument-button" className='button button-primary' onClick={archiveLoanInfo}>Return Instrument</button>
+                        </div>
                         <div id='loan-info-submit-div'>
-                            <button disabled={disabled} id="update-loan-info-button" className='button button-success' onClick={editedLoanFormDisabled ? showEditLoanForm : updateLoanInfo}>Update Repair Info</button>
+                            <button disabled={disabled} id="update-loan-info-button" className='button button-success' onClick={editedLoanFormDisabled ? showEditLoanForm : updateLoanInfo}>Update Loan Info</button>
                         </div>
                     </form>
                 </div>

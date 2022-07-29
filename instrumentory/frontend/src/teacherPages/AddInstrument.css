@@ -188,6 +188,7 @@ fieldset:disabled textarea {
 
 #add-instrument-submit-div,
 #loan-info-submit-div,
+#loan-info-archive-div,
 #repair-info-submit-div {
     margin: auto;
     width: 90%;
@@ -200,4 +201,11 @@ fieldset:disabled textarea {
     width: 100%;
     font-size: 1rem;
     margin-bottom: 2rem;
+}
+
+#return-instrument-button {
+    width: 100%;
+    font-size: 1rem;
+    margin-bottom: 1rem;
+    height: 5rem;
 }

@@ -39,6 +39,7 @@ urlpatterns = [
    # LOAN INFO
    path('loan_info/', views.getAllLoanInfo, name='get-all-loan-info'),
    path('loan_info/<str:pk>/update/', views.updateLoanInfo, name='update-loan-info'),
+   path('loan_info/<str:pk>/archive/', views.archiveLoanInfo, name='archive-loan-info'),
    # REPAIR INFO
    path('repair_info/', views.getAllRepairInfo, name='get-all-repair-info'),
    path('repair_info/create/', views.createRepairInfo, name='create-repair-info'),
