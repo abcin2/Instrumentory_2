@@ -1,0 +1,27 @@
+.modal-background {
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    background-color: rgba(0, 0, 0, 0.455);
+    z-index: 1;
+}
+
+.modal-container {
+    margin-left: 50%;
+    margin-top: 40%;
+    transform: translate(-50%, -50%);
+    border: 1px solid black;
+    width: 15rem;
+    height: 13rem;
+    background-color: white;
+}
+
+/* this needs to go on to the page where the modal will be placed */
+/* body {
+    overflow-y: hidden;
+} */

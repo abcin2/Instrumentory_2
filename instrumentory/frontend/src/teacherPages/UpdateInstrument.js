@@ -7,6 +7,7 @@ import AuthHeader from '../components/AuthHeader';
 import GenHeader from '../components/GenHeader';
 import AuthFooter from '../components/AuthFooter';
 import GenFooter from '../components/GenFooter';
+import Modal from '../components/Modal';
 
 // import AutoComplete from '../components/AutoComplete';
 
@@ -346,6 +347,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
     <div id="add-instrument-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
         <div className='page'>
+            <Modal display="block" /> {/* I eventually want to use a ternary here */}
             <div id="add-instrument-header">
                 <h1>Update {instrumentType}: {instrumentSerial}</h1>
             </div>
