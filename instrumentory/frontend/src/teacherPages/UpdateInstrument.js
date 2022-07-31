@@ -1,5 +1,5 @@
 import './AddInstrument.css'
-import React, { useContext, useState, useEffect } from 'react';
+import React, { useContext, useState, useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 
 import AuthContext from '../context/AuthContext';
@@ -57,6 +57,49 @@ function UpdateInstrument() { // will probably need to add every state variable 
     const [repairInfo, setRepairInfo] = useState([]);
     const [cosmeticIssues, setCosmeticIssues] = useState(null);
     const [hardwareIssues, setHardwareIssues] = useState(null);
+
+    // modal object
+    const [modalDisplayOne, setModalDisplayOne] = useState('none');
+    const [modalDisplayTwo, setModalDisplayTwo] = useState('none');
+
+    const modal_data_one = {
+        display: modalDisplayOne,
+        headerText: 'Are you sure?',
+        bodyText: 'Returning this instrument will archive the current information and replace it with a blank form. You currently do not have a loan return date. Would you like to archive anyway?',
+        button1: "Yes, I'm sure",
+        button2: "On second thought...",
+        button1Click: () => {archiveLoanInfo()},
+        button2Click: () => {setModalDisplayOne('none')}
+    }
+
+    const modal_data_two = {
+        display: modalDisplayTwo,
+        headerText: 'Are you sure?',
+        bodyText: 'Returning this instrument will archive the current information and replace it with a blank form. You cannot undo this action. Would you like to archive?',
+        button1: "Yes, I'm sure",
+        button2: "On second thought...",
+        button1Click: () => {archiveLoanInfo()},
+        button2Click: () => {setModalDisplayTwo('none')}
+    }
+
+    /* REFs */
+    const backgroundOne = useRef()
+    const closeButtonOne = useRef()
+    const backgroundTwo = useRef()
+    const closeButtonTwo = useRef()
+
+    useEffect(() => {
+        document.addEventListener('click', (e) => {
+            if (e.target === backgroundOne.current || 
+                e.target === closeButtonOne.current ||
+                e.target === backgroundTwo.current ||
+                e.target === closeButtonTwo.current) {
+                setModalDisplayOne('none');
+                setModalDisplayTwo('none');
+            }
+        })
+    }, [])
+
 
     useEffect(() => {
         const getInstrument = async () => {
@@ -220,65 +263,53 @@ function UpdateInstrument() { // will probably need to add every state variable 
     }
 
     const archiveLoanInfo = async (e) => {
+        setDisabled(true);
 
-        const archive = async () => {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/archive/`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    'id': id,
-                    'student_first_name': studentFirstName,
-                    'student_last_name': studentLastName,
-                    'student_email': studentEmail,
-                    'parent_first_name': parentFirstName,
-                    'parent_last_name': parentLastName,
-                    'parent_email': parentEmail,
-                    'parent_phone': parentPhone,
-                    'loan_start': loanStart,
-                    'loan_end': loanEnd,
-                    'accept_contract': contractAccepted
-                })
+        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/loan_info/${id}/archive/`, {
+            method: 'PUT',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                'id': id,
+                'student_first_name': studentFirstName,
+                'student_last_name': studentLastName,
+                'student_email': studentEmail,
+                'parent_first_name': parentFirstName,
+                'parent_last_name': parentLastName,
+                'parent_email': parentEmail,
+                'parent_phone': parentPhone,
+                'loan_start': loanStart,
+                'loan_end': loanEnd,
+                'accept_contract': contractAccepted
             })
-            if (response.ok) {
-                console.log('Loan Info archived successfully!');
-                let fieldset_inputs = document.getElementById('loan-fieldset-inputs');
-                let update_loan_info_button = document.getElementById('update-loan-info-button');
-                let loan_info_form = document.getElementById('form-loan-info');
-    
-                fieldset_inputs.disabled = true;
-                update_loan_info_button.innerHTML = 'Edit Loan Info';
-                setEditedLoanFormDisabled(true);
-                setDisabled(false);
-                // clear values in form, because python view, removes the info from the db
-                setStudentFirstName('');
-                setStudentLastName('');
-                setStudentEmail('');
-                setParentFirstName('');
-                setParentLastName('');
-                setParentEmail('');
-                setParentPhone('');
-                setLoanStart('');
-                setLoanEnd('');
-                setContractAccepted('');
-                loan_info_form.reset()
-            } else {
-                console.log(response);
-            }
-        }
+        })
+        if (response.ok) {
+            console.log('Loan Info archived successfully!');
+            let fieldset_inputs = document.getElementById('loan-fieldset-inputs');
+            let update_loan_info_button = document.getElementById('update-loan-info-button');
+            let loan_info_form = document.getElementById('form-loan-info');
 
-        if (!loanEnd) {
-            alert('This instrument has not yet been returned, are you sure you would like to archive this loan information?')
-            e.preventDefault();
-            setDisabled(true)
-
-            archive()
-    
+            fieldset_inputs.disabled = true;
+            update_loan_info_button.innerHTML = 'Edit Loan Info';
+            setEditedLoanFormDisabled(true);
+            setDisabled(false);
+            // clear values in form, because python view, removes the info from the db
+            setStudentFirstName('');
+            setStudentLastName('');
+            setStudentEmail('');
+            setParentFirstName('');
+            setParentLastName('');
+            setParentEmail('');
+            setParentPhone('');
+            setLoanStart('');
+            setLoanEnd('');
+            setContractAccepted('');
+            loan_info_form.reset()
+            setModalDisplayOne('none');
+            setModalDisplayTwo('none');
         } else {
-            alert('Are you sure you would like to archive this information? This will reset the form.')
-            
-            archive()
+            console.log(response);
         }
     }
 
@@ -347,7 +378,28 @@ function UpdateInstrument() { // will probably need to add every state variable 
     <div id="add-instrument-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
         <div className='page'>
-            <Modal display="block" /> {/* I eventually want to use a ternary here */}
+            <Modal 
+            display={modal_data_one.display}
+            headerText={modal_data_one.headerText}
+            bodyText={modal_data_one.bodyText}
+            button1={modal_data_one.button1}
+            button2={modal_data_one.button2}
+            button1Click={modal_data_one.button1Click}
+            button2Click={modal_data_one.button2Click}
+            backgroundRef={backgroundOne}
+            closeButtonRef={closeButtonOne}
+            />
+            <Modal 
+            display={modal_data_two.display}
+            headerText={modal_data_two.headerText}
+            bodyText={modal_data_two.bodyText}
+            button1={modal_data_two.button1}
+            button2={modal_data_two.button2}
+            button1Click={modal_data_two.button1Click}
+            button2Click={modal_data_two.button2Click}
+            backgroundRef={backgroundTwo}
+            closeButtonRef={closeButtonTwo}
+            />
             <div id="add-instrument-header">
                 <h1>Update {instrumentType}: {instrumentSerial}</h1>
             </div>
@@ -437,7 +489,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
                             </div>
                         </fieldset>
                         <div id="loan-info-archive-div">
-                            <button disabled={loanStart ? disabled : true} id="return-instrument-button" className='button button-primary' onClick={archiveLoanInfo}>Return Instrument</button>
+                            <button disabled={loanStart ? disabled : true} id="return-instrument-button" className='button button-primary' onClick={() => {loanEnd ? setModalDisplayTwo('block') : setModalDisplayOne('block')}}>Return Instrument</button>
                         </div>
                         <div id='loan-info-submit-div'>
                             <button disabled={disabled} id="update-loan-info-button" className='button button-success' onClick={editedLoanFormDisabled ? showEditLoanForm : updateLoanInfo}>Update Loan Info</button>
