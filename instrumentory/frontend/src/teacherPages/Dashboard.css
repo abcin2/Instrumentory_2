@@ -71,6 +71,12 @@ h1 {
     border: 1px solid black;
 }
 
+.graph:focus,
+.graph:hover {
+    transform: scale(1.1);
+    transition: 0.3s ease-out;
+}
+
 @media (max-width: 28em) {
     .dashboard-graphs {
         width: 40vw;
@@ -81,17 +87,30 @@ h1 {
         height: 50vw;
     }
 }
-  
-canvas {
+
+#available-canvas,
+#loaned-canvas,
+#broken-canvas {
     border-radius: 50%;
     z-index: 9;
     transition: 0.3s ease-out;
 }
   
-canvas:hover,
-canvas:focus {
+#available-canvas:hover,
+#available-canvas:focus,
+#loaned-canvas:hover,
+#loaned-canvas:focus,
+#broken-canvas:hover,
+#broken-canvas:focus {
     transform: scale(1.1);
     transition: 0.3s ease-out;
+}
+
+.graph-text {
+    color: black;
+    z-index: 20;
+    font-size: 1.25rem;
+    font-weight: 100;
 }
   
 .graph-link {
