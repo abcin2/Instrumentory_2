@@ -69,6 +69,7 @@ h1 {
     width: 15em;
     margin: 1em auto;
     border: 1px solid black;
+    /* background: linear-gradient(0deg, #FFC0CB 15%, #00FFFF 15%); */
     /* background-color: var(--success-light); */
 }
 

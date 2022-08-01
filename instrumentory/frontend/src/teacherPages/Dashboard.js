@@ -6,7 +6,6 @@ import AuthHeader from '../components/AuthHeader';
 import GenHeader from '../components/GenHeader';
 import AuthFooter from '../components/AuthFooter';
 import GenFooter from '../components/GenFooter';
-import { GiZBrick } from 'react-icons/gi';
 
 function Dashboard() {
 
@@ -30,6 +29,7 @@ function Dashboard() {
             let avail_instruments = 0
             let loaned_instruments = 0
             let broken_instruments = 0
+
             for (let inst of data) {
                 if (inst.current_loan_info.student_first_name === null) {
                     avail_instruments += 1
@@ -40,20 +40,46 @@ function Dashboard() {
                     broken_instruments += 1
                 }
             }
+            
             setAvailableLength(avail_instruments);
             setLoanedLength(loaned_instruments);
             setBrokenLength(broken_instruments);
 
+            // The below methods animate the color on each of the graphs
+            // I hope I will eventually be able to get it to rotate in the circle
+
+            const drawLoop = (start, percent, graph) => {
+                setTimeout(() => {
+                    let percentage = start.toString() + '%';
+                    let incriment = percent / 100
+                    graph.style.background = `linear-gradient(0deg, var(--success-light) ${percentage}, white ${percentage})`;
+                    start += incriment;
+                    if (start <= percent) {
+                        drawLoop(start, percent, graph);
+                    }
+                }, 5)
+            }
+
             const animateAvailGraph = (avail, total) => {
-                return
+                // const full_circle = 360
+                const graph = document.getElementById('available-graph');
+                let percentage_int = avail/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
             }
 
             const animateLoanedGraph = (loaned, total) => {
-                return
+                const graph = document.getElementById('loaned-graph');
+                let percentage_int = loaned/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
             }
 
             const animateBrokenGraph = (broken, total) => {
-                return
+                const graph = document.getElementById('broken-graph');
+                let percentage_int = broken/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
             }
 
             animateAvailGraph(avail_instruments, data.length);
@@ -75,15 +101,15 @@ function Dashboard() {
             <div className="card dashboard-graphs">
                 <div className="circle-graphs">
                     <div className="graph-link">
-                        <a className="graph" href="/available_instruments/"><div id="available-canvas"><p className='graph-text'>{ availableLength }/{ listLength }</p></div></a>
+                        <a id="available-graph" className="graph" href="/available_instruments/"><div id="available-canvas"><p className='graph-text'>{ availableLength }/{ listLength }</p></div></a>
                         <p>Available Instruments</p>
                     </div>
                     <div className="graph-link">
-                        <a className="graph" href="/loaned_instruments/"><div id="loaned-canvas"><p className='graph-text'>{ loanedLength }/{ listLength }</p></div></a>
+                        <a id="loaned-graph" className="graph" href="/loaned_instruments/"><div id="loaned-canvas"><p className='graph-text'>{ loanedLength }/{ listLength }</p></div></a>
                         <p>Loaned Instruments</p>
                     </div>
                     <div className="graph-link">
-                        <a className="graph" href="/broken_instruments/"><div id="broken-canvas"><p className='graph-text'>{ brokenLength }/{ listLength }</p></div></a>
+                        <a id="broken-graph" className="graph" href="/broken_instruments/"><div id="broken-canvas"><p className='graph-text'>{ brokenLength }/{ listLength }</p></div></a>
                         <p>Broken Instruments</p>
                     </div>
                 </div>
