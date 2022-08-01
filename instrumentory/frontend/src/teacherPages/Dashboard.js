@@ -21,6 +21,7 @@ function Dashboard() {
 
 
     useEffect(() => {
+
         const getInstruments = async () => {
             let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
             let data = await response.json();
@@ -28,7 +29,7 @@ function Dashboard() {
             setListLength(data.length);
             let avail_instruments = 0
             let loaned_instruments = 0
-            let broken_length = 0
+            let broken_instruments = 0
             for (let inst of data) {
                 if (inst.current_loan_info.student_first_name === null) {
                     avail_instruments += 1
@@ -36,15 +37,34 @@ function Dashboard() {
                     loaned_instruments += 1
                 }
                 if (inst.repair_info.instrument_cosmetic_issues != '' && inst.repair_info.instrument_hardware_issues != '') {
-                    broken_length += 1
+                    broken_instruments += 1
                 }
             }
             setAvailableLength(avail_instruments);
             setLoanedLength(loaned_instruments);
-            setBrokenLength(broken_length);
+            setBrokenLength(broken_instruments);
+
+            const animateAvailGraph = (avail, total) => {
+                return
+            }
+
+            const animateLoanedGraph = (loaned, total) => {
+                return
+            }
+
+            const animateBrokenGraph = (broken, total) => {
+                return
+            }
+
+            animateAvailGraph(avail_instruments, data.length);
+            animateLoanedGraph(loaned_instruments, data.length);
+            animateBrokenGraph(broken_instruments, data.length);
+
         }
+
         getInstruments();
         console.log('data retrieved');
+
     }, [])
 
   return (
