@@ -22,21 +22,28 @@ function Dashboard() {
     useEffect(() => {
 
         const getInstruments = async () => {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
-            let data = await response.json();
-            setAllInstruments(data);
-            setListLength(data.length);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments`);
+            let data = await response.json(); // this calls EVERY instrument for EVERY user
+            let instruments_for_user = []
+            for (let inst of data) { // this iterates through all instruments and only allows the user to access the ones THEY have added on their account
+                if (inst.user.id === user.user_id) {
+                    instruments_for_user.push(inst);
+                }
+            }
+
+            setAllInstruments(instruments_for_user);
+            setListLength(instruments_for_user.length);
             let avail_instruments = 0
             let loaned_instruments = 0
             let broken_instruments = 0
 
-            for (let inst of data) {
+            for (let inst of instruments_for_user) {
                 if (inst.current_loan_info.student_first_name === null) {
                     avail_instruments += 1
                 } else {
                     loaned_instruments += 1
                 }
-                if (inst.repair_info.instrument_cosmetic_issues != '' && inst.repair_info.instrument_hardware_issues != '') {
+                if (inst.repair_info.instrument_cosmetic_issues !== '' && inst.repair_info.instrument_hardware_issues !== '') {
                     broken_instruments += 1
                 }
             }
@@ -52,7 +59,7 @@ function Dashboard() {
                 setTimeout(() => {
                     let percentage = start.toString() + '%';
                     let incriment = percent / 100
-                    graph.style.background = `linear-gradient(0deg, var(--success-light) ${percentage}, white ${percentage})`;
+                    graph.style.background = `linear-gradient(0deg, var(--primary-light) ${percentage}, white ${percentage})`;
                     start += incriment;
                     if (start <= percent) {
                         drawLoop(start, percent, graph);
@@ -82,16 +89,16 @@ function Dashboard() {
                 drawLoop(start, percentage_int, graph);
             }
 
-            animateAvailGraph(avail_instruments, data.length);
-            animateLoanedGraph(loaned_instruments, data.length);
-            animateBrokenGraph(broken_instruments, data.length);
+            animateAvailGraph(avail_instruments, instruments_for_user.length);
+            animateLoanedGraph(loaned_instruments, instruments_for_user.length);
+            animateBrokenGraph(broken_instruments, instruments_for_user.length);
 
         }
 
         getInstruments();
         console.log('data retrieved');
 
-    }, [])
+    }, [user.user_id])
 
   return (
     <div id="dashboard-full-page">
