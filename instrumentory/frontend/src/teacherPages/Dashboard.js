@@ -22,14 +22,9 @@ function Dashboard() {
     useEffect(() => {
 
         const getInstruments = async () => {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments`);
-            let data = await response.json(); // this calls EVERY instrument for EVERY user
-            let instruments_for_user = []
-            for (let inst of data) { // this iterates through all instruments and only allows the user to access the ones THEY have added on their account
-                if (inst.user.id === user.user_id) {
-                    instruments_for_user.push(inst);
-                }
-            }
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
+            let data = await response.json(); // this gets all info on current user
+            let instruments_for_user = data.instrument // this targets the instruments for the current user
 
             setAllInstruments(instruments_for_user);
             setListLength(instruments_for_user.length);
