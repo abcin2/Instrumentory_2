@@ -116,6 +116,7 @@ function Dashboard() {
                     </div>
                 </div>
             </div>
+            <a href='/full_inventory/' className='button button-primary full-inventory-button'>All Instruments</a>
         </div>
         {user ? <AuthFooter /> : <GenFooter />}
     </div>
