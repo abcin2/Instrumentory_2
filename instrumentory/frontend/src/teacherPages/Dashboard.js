@@ -33,12 +33,12 @@ function Dashboard() {
             let broken_instruments = 0
 
             for (let inst of instruments_for_user) {
-                if (inst.current_loan_info.student_first_name === null) {
+                if (inst.current_loan_info.loan_start === null) {
                     avail_instruments += 1
                 } else {
                     loaned_instruments += 1
                 }
-                if (inst.repair_info.instrument_cosmetic_issues !== '' && inst.repair_info.instrument_hardware_issues !== '') {
+                if (inst.repair_info.instrument_cosmetic_issues !== null || inst.repair_info.instrument_hardware_issues !== null) {
                     broken_instruments += 1
                 }
             }

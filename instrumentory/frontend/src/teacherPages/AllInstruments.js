@@ -35,7 +35,6 @@ function AllInstruments() {
 
             setAllInstruments(instrument_data.instrument);
             // console.log(instrument_data);
-            // need to make sure modals are initially {display: none}
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
             // console.log(modals);
@@ -44,7 +43,9 @@ function AllInstruments() {
                 modals[i].style.display = "none";
             }
         }
+
         fetchAllInstruments();
+
     }, [])
 
     const addInstrumentView = () => {
@@ -124,12 +125,7 @@ function AllInstruments() {
             </div>
             {/* css grid for cards instead of a table */}
             <div className='inst-grid'>
-                {/* <div id="add-instrument-card" className='instrument-card'>
-                    <h1>Add instrument</h1>
-                    <TiPlus id="plus-sign" size={40} />
-                </div> */}
-                {/* ^^^ NOT SURE I WANT THIS ONE AT THE BEGINNING SINCE THERE IS A NAVBAR OPTION TO ADD AN INSTRUMENT ^^^ */}
-                {allInstruments.map(inst => {
+                {allInstruments?.map(inst => {
                     return (
                         <div key={inst.instrument_serial} className='instrument-card-container'>
                             {/* MODAL START */}
