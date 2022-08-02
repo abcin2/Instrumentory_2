@@ -99,10 +99,6 @@ class InstrumentSerializer(ModelSerializer):
             'repair_info',
         ]
         
-    # def to_representation(self, instance):
-    #     self.fields['user'] =  UserSerializer(read_only=True)
-    #     return super(InstrumentSerializer, self).to_representation(instance)
-
 
 class LoanInfoSerializer(ModelSerializer):
     class Meta:
@@ -143,3 +139,23 @@ class SchoolDistrictSerializer(ModelSerializer):
             'verify_district_email', 
             'site'
         ]
+        
+### ALL INFO FOR USER
+class AllUserInfoSerializer(ModelSerializer):
+    
+    instrument = InstrumentSerializer(many=True)
+    
+    class Meta:
+        model = CustomUser
+        fields = [
+            'id',
+            'username',
+            'first_name',
+            'last_name',
+            'email',
+            'is_validated',
+            'school_district',
+            'school_site',
+            'groups',
+            'instrument'
+        ] # there are still more fields for USER that could be added if needed

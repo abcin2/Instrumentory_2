@@ -90,7 +90,7 @@ def getAllUsers(request):
 @api_view(['GET'])
 def getUser(request, pk):
     user = CustomUser.objects.get(id=pk)
-    serializer = UserSerializer(user, many=False)
+    serializer = AllUserInfoSerializer(user, many=False)
     
     return Response(serializer.data)
 

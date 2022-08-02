@@ -24,7 +24,7 @@ h1 {
     box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
     margin: auto;
     padding: 4rem;
-    margin-bottom: 15rem;
+    margin-bottom: 5rem;
     width: max-content;
     height: max-content;
 }
@@ -69,6 +69,8 @@ h1 {
     width: 15em;
     margin: 1em auto;
     border: 1px solid black;
+    /* background: linear-gradient(0deg, #FFC0CB 15%, #00FFFF 15%); */
+    /* background-color: var(--success-light); */
 }
 
 .graph:focus,
@@ -128,16 +130,17 @@ h1 {
     font-size: 1rem;
 }
   
-.full_inventory_button {
+.full-inventory-button {
     text-decoration: none;
-    padding: 1rem 2rem;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+    font-size: 1.25rem;
+    padding: 1rem 5rem;
+    margin-top: 0;
+    margin-bottom: 15rem;
 }
-  
-.full_inventory_button:hover,
-.full_inventory_button:focus {
-    box-shadow: none;
+
+.full-inventory-button:hover,
+.full-inventory-button:focus {
+    color: var(--primary-dark);
 }
   
 #loader {

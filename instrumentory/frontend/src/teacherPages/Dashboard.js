@@ -6,7 +6,6 @@ import AuthHeader from '../components/AuthHeader';
 import GenHeader from '../components/GenHeader';
 import AuthFooter from '../components/AuthFooter';
 import GenFooter from '../components/GenFooter';
-import { GiZBrick } from 'react-icons/gi';
 
 function Dashboard() {
 
@@ -21,31 +20,80 @@ function Dashboard() {
 
 
     useEffect(() => {
+
         const getInstruments = async () => {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
-            let data = await response.json();
-            setAllInstruments(data);
-            setListLength(data.length);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
+            let data = await response.json(); // this gets all info on current user
+            let instruments_for_user = data.instrument // this targets the instruments for the current user
+
+            setAllInstruments(instruments_for_user);
+            setListLength(instruments_for_user.length);
             let avail_instruments = 0
             let loaned_instruments = 0
-            let broken_length = 0
-            for (let inst of data) {
+            let broken_instruments = 0
+
+            for (let inst of instruments_for_user) {
                 if (inst.current_loan_info.student_first_name === null) {
                     avail_instruments += 1
                 } else {
                     loaned_instruments += 1
                 }
-                if (inst.repair_info.instrument_cosmetic_issues != '' && inst.repair_info.instrument_hardware_issues != '') {
-                    broken_length += 1
+                if (inst.repair_info.instrument_cosmetic_issues !== '' && inst.repair_info.instrument_hardware_issues !== '') {
+                    broken_instruments += 1
                 }
             }
+            
             setAvailableLength(avail_instruments);
             setLoanedLength(loaned_instruments);
-            setBrokenLength(broken_length);
+            setBrokenLength(broken_instruments);
+
+            // The below methods animate the color on each of the graphs
+            // I hope I will eventually be able to get it to rotate in the circle
+
+            const drawLoop = (start, percent, graph) => {
+                setTimeout(() => {
+                    let percentage = start.toString() + '%';
+                    let incriment = percent / 100
+                    graph.style.background = `linear-gradient(0deg, var(--primary-light) ${percentage}, white ${percentage})`;
+                    start += incriment;
+                    if (start <= percent) {
+                        drawLoop(start, percent, graph);
+                    }
+                }, 5)
+            }
+
+            const animateAvailGraph = (avail, total) => {
+                // const full_circle = 360
+                const graph = document.getElementById('available-graph');
+                let percentage_int = avail/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
+            }
+
+            const animateLoanedGraph = (loaned, total) => {
+                const graph = document.getElementById('loaned-graph');
+                let percentage_int = loaned/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
+            }
+
+            const animateBrokenGraph = (broken, total) => {
+                const graph = document.getElementById('broken-graph');
+                let percentage_int = broken/total * 100
+                let start = 0
+                drawLoop(start, percentage_int, graph);
+            }
+
+            animateAvailGraph(avail_instruments, instruments_for_user.length);
+            animateLoanedGraph(loaned_instruments, instruments_for_user.length);
+            animateBrokenGraph(broken_instruments, instruments_for_user.length);
+
         }
+
         getInstruments();
         console.log('data retrieved');
-    }, [])
+
+    }, [user.user_id])
 
   return (
     <div id="dashboard-full-page">
@@ -55,19 +103,20 @@ function Dashboard() {
             <div className="card dashboard-graphs">
                 <div className="circle-graphs">
                     <div className="graph-link">
-                        <a className="graph" href="/available_instruments/"><div id="available-canvas"><p className='graph-text'>{ availableLength }/{ listLength }</p></div></a>
+                        <a id="available-graph" className="graph" href="/available_instruments/"><div id="available-canvas"><p className='graph-text'>{ availableLength }/{ listLength }</p></div></a>
                         <p>Available Instruments</p>
                     </div>
                     <div className="graph-link">
-                        <a className="graph" href="/loaned_instruments/"><div id="loaned-canvas"><p className='graph-text'>{ loanedLength }/{ listLength }</p></div></a>
+                        <a id="loaned-graph" className="graph" href="/loaned_instruments/"><div id="loaned-canvas"><p className='graph-text'>{ loanedLength }/{ listLength }</p></div></a>
                         <p>Loaned Instruments</p>
                     </div>
                     <div className="graph-link">
-                        <a className="graph" href="/broken_instruments/"><div id="broken-canvas"><p className='graph-text'>{ brokenLength }/{ listLength }</p></div></a>
+                        <a id="broken-graph" className="graph" href="/broken_instruments/"><div id="broken-canvas"><p className='graph-text'>{ brokenLength }/{ listLength }</p></div></a>
                         <p>Broken Instruments</p>
                     </div>
                 </div>
             </div>
+            <a href='/full_inventory/' className='button button-primary full-inventory-button'>All Instruments</a>
         </div>
         {user ? <AuthFooter /> : <GenFooter />}
     </div>
