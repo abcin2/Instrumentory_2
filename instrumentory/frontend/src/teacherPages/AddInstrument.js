@@ -110,39 +110,39 @@ function AddInstrument() {
                     </div>
                     <div id="instrument-accessories-input">
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="mouthpiece" value="mouthpiece" onChange={e => setMouthpiece(e.target.checked)} />
+                            <input id="mouthpiece" type="checkbox" name="mouthpiece" value="mouthpiece" onChange={e => setMouthpiece(e.target.checked)} />
                             <label htmlFor="mouthpiece">Mouthpiece</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="slide-grease" value="slide-grease" onChange={e => setSlideGrease(e.target.checked)} />
+                            <input id="slide-grease" type="checkbox" name="slide-grease" value="slide-grease" onChange={e => setSlideGrease(e.target.checked)} />
                             <label htmlFor="slide-grease">Slide Grease</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="slide-oil" value="slide-oil" onChange={e => setSlideOil(e.target.checked)} />
+                            <input id="slide-oil" type="checkbox" name="slide-oil" value="slide-oil" onChange={e => setSlideOil(e.target.checked)} />
                             <label htmlFor="slide-oil">Slide Oil</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="valve-oil" value="valve-oil" onChange={e => setValveOil(e.target.checked)} />
+                            <input id="valve-oil" type="checkbox" name="valve-oil" value="valve-oil" onChange={e => setValveOil(e.target.checked)} />
                             <label htmlFor="valve-oil">Valve Oil</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="ligature" value="ligature" onChange={e => setLigature(e.target.checked)} />
+                            <input id="ligature" type="checkbox" name="ligature" value="ligature" onChange={e => setLigature(e.target.checked)} />
                             <label htmlFor="ligature">Ligature</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="reeds" value="reeds" onChange={e => setReeds(e.target.checked)} />
+                            <input id="reeds" type="checkbox" name="reeds" value="reeds" onChange={e => setReeds(e.target.checked)} />
                             <label htmlFor="reeds">Reeds</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="cork-grease" value="cork-grease" onChange={e => setCorkGrease(e.target.checked)} />
+                            <input id="cork-grease" type="checkbox" name="cork-grease" value="cork-grease" onChange={e => setCorkGrease(e.target.checked)} />
                             <label htmlFor="cork-grease">Cork Grease</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="neck-strap" value="neck-strap" onChange={e => setNeckStrap(e.target.checked)} />
+                            <input id="neck-strap" type="checkbox" name="neck-strap" value="neck-strap" onChange={e => setNeckStrap(e.target.checked)} />
                             <label htmlFor="neck-strap">Neck Strap</label> 
                         </div>
                         <div className="checkbox-and-label">
-                            <input type="checkbox" name="swab" value="swab" onChange={e => setSwab(e.target.checked)} />
+                            <input id="swab" type="checkbox" name="swab" value="swab" onChange={e => setSwab(e.target.checked)} />
                             <label htmlFor="swab">Swab</label>
                         </div>
                     </div>

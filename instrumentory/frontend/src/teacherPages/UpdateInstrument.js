@@ -115,8 +115,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             document.getElementById('instrument-model').value = data.instrument_model;
             setInstrumentSerial(data.instrument_serial);
             document.getElementById('instrument-serial').value = data.instrument_serial;
-            {data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null)}; // needs to change to ternary until I figure out the image issue
-            // document.getElementById('instrument-image').value = data.instrument_image;
+            {data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null)};
             // Accessories Data
             setMouthpiece(data.accessories.instrument_mouthpiece);
             document.getElementById('mouthpiece').checked = data.accessories.instrument_mouthpiece;
@@ -171,8 +170,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
         console.log('data retrieved')
     }, [id])
 
-    // console.log(process.env.REACT_APP_DATABASE_HOST)
-    // console.log(document.getElementById('contract').checked)
     // I could dynamically change the checkbox options depending on what instrument is selected.
     // I could remove the options for accessories for instruments that are not currently in the database.
     // These could be added later if/when they are needed.
