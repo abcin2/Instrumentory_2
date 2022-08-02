@@ -115,8 +115,8 @@ function UpdateInstrument() { // will probably need to add every state variable 
             document.getElementById('instrument-model').value = data.instrument_model;
             setInstrumentSerial(data.instrument_serial);
             document.getElementById('instrument-serial').value = data.instrument_serial;
-            setInstrumentImage(null); // needs to change to conditional until I figure out the image issue
-            document.getElementById('instrument-image').value = null;
+            {data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null)}; // needs to change to ternary until I figure out the image issue
+            // document.getElementById('instrument-image').value = data.instrument_image;
             // Accessories Data
             setMouthpiece(data.accessories.instrument_mouthpiece);
             document.getElementById('mouthpiece').checked = data.accessories.instrument_mouthpiece;
