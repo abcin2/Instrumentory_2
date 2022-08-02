@@ -19,9 +19,17 @@ function LoanedInstruments() {
 
     useEffect(() => {
         async function fetchLoanedInstruments() {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
             let instrument_data = await response.json();
-            setLoanedInstruments(instrument_data);
+
+            let loaned_instruments = [];
+            for (let inst of instrument_data.instrument) {
+                if (inst.current_loan_info.loan_start !== '') {
+                    loaned_instruments.push(inst);
+                }
+            }
+
+            setLoanedInstruments(loaned_instruments);
         }
         fetchLoanedInstruments();
     }, [])

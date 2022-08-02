@@ -21,11 +21,21 @@ function BrokenInstruments() {
 
     useEffect(() => {
         async function fetchBrokenInstruments() {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
             let instrument_data = await response.json();
-            setBrokenInstruments(instrument_data);
+
+            let broken_instruments = [];
+            for (let inst of instrument_data.instrument) {
+                if (inst.repair_info.instrument_cosmetic_issues !== '' || inst.repair_info.instrument_hardware_issues !== '') {
+                    broken_instruments.push(inst);
+                }
+            }
+
+            setBrokenInstruments(broken_instruments);
         }
+
         fetchBrokenInstruments();
+        
     }, [])
 
     const addInstrumentView = () => {

@@ -21,8 +21,16 @@ function AvailableInstruments() {
 
     useEffect(() => {
         async function fetchAvailableInstruments() {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
             let instrument_data = await response.json();
+
+            let available_instruments = [];
+            for (let inst of instrument_data.instrument) {
+                if (inst.current_loan_info.loan_start === '') {
+                    available_instruments.push(inst);
+                }
+            }
+            
             setAvailableInstruments(instrument_data);
         }
         fetchAvailableInstruments();

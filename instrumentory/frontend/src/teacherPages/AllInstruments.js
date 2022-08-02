@@ -21,17 +21,19 @@ function AllInstruments() {
 
     let navigate = useNavigate()
 
-    const fetchAllInstruments = async () => {
-        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+    const fetchAllInstrumentsAfterDelete = async () => {
+        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
         let instrument_data = await response.json();
-        setAllInstruments(instrument_data);
+
+        setAllInstruments(instrument_data.instrument);
     }
 
     useEffect(() => {
         async function fetchAllInstruments() {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
             let instrument_data = await response.json();
-            setAllInstruments(instrument_data);
+
+            setAllInstruments(instrument_data.instrument);
             // console.log(instrument_data);
             // need to make sure modals are initially {display: none}
             const modals = document.getElementsByClassName('delete-instrument-card');
@@ -79,7 +81,7 @@ function AllInstruments() {
         });
         // refresh page
         // window.location.reload(false);
-        fetchAllInstruments();
+        fetchAllInstrumentsAfterDelete();
     }
 
     // STATUS CHANGE
