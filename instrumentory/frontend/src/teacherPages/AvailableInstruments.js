@@ -18,6 +18,8 @@ function AvailableInstruments() {
     const [availableInstruments, setAvailableInstruments] = useState([]);
     const [allModals, setAllModals] = useState([]);
 
+    const [instrumentTypes, setInstrumentTypes] = useState([]);
+
     let navigate = useNavigate()
 
     const fetchAllInstrumentsAfterDelete = async () => {
@@ -48,6 +50,13 @@ function AvailableInstruments() {
                 // console.log(modals[i]);
                 modals[i].style.display = "none";
             }
+
+            // set instrument types
+            let types = new Set()
+            for (let inst of availableInstruments) {
+                types.add(inst.instrument_type)
+            }
+            setInstrumentTypes(types)
         }
 
         fetchAvailableInstruments();
@@ -104,7 +113,12 @@ function AvailableInstruments() {
             navigate('/full_inventory/');
         }
     }
-    
+
+    // INSTRUMENT TYPE CHANGE
+    const instrumentChange = (e) => {
+        return
+    }
+
   return (
     <div id="available-instruments-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
@@ -116,15 +130,22 @@ function AvailableInstruments() {
                 {/* This will need to be styled and adjusted more later */}
                 <div className="filter-choices">
                     <label>Status</label>
-                    <select onChange={statusChange}>
-                        <option>All</option>
-                        <option selected>Available</option>
-                        <option>Loaned</option>
-                        <option>Broken</option>
+                    <select defaultValue={'Available'} onChange={statusChange}>
+                        <option value='All'>All</option>
+                        <option value='Available'>Available</option>
+                        <option value='Loaned'>Loaned</option>
+                        <option value='Broken'>Broken</option>
+                    </select>
+                    <label>Instrument Type</label>
+                    <select onChange={instrumentChange}>
+                        {[...instrumentTypes]?.map(type => {
+                            return (
+                                <option key={type} value={type}>{type}</option>
+                            )
+                        })}
                     </select>
                     <label>Search Bar</label>
                     <input type="text" />
-                    <label>Instrument Type</label>
                     <label>Order By</label>
                     <button className="go">Go</button>
                 </div>
