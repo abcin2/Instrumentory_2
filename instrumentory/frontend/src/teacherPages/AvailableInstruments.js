@@ -34,12 +34,12 @@ function AvailableInstruments() {
 
             let available_instruments = [];
             for (let inst of instrument_data.instrument) {
-                if (inst.current_loan_info.loan_start === '') {
+                if (inst.current_loan_info.loan_start === null) {
                     available_instruments.push(inst);
                 }
             }
 
-            setAvailableInstruments(instrument_data);
+            setAvailableInstruments(available_instruments);
 
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);

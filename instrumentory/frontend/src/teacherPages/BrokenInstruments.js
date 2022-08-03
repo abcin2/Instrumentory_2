@@ -16,8 +16,16 @@ function BrokenInstruments() {
     const { user } = useContext(AuthContext);
 
     const [brokenInstruments, setBrokenInstruments] = useState([]);
+    const [allModals, setAllModals] = useState([]);
 
     let navigate = useNavigate()
+
+    const fetchAllInstrumentsAfterDelete = async () => {
+        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
+        let instrument_data = await response.json();
+
+        setBrokenInstruments(instrument_data.instrument);
+    }
 
     useEffect(() => {
         async function fetchBrokenInstruments() {
@@ -32,14 +40,69 @@ function BrokenInstruments() {
             }
 
             setBrokenInstruments(broken_instruments);
+
+            const modals = document.getElementsByClassName('delete-instrument-card');
+            setAllModals(modals);
+            // console.log(modals);
+            for (let i=0; i < modals.length; i++) {
+                // console.log(modals[i]);
+                modals[i].style.display = "none";
+            }
         }
 
         fetchBrokenInstruments();
-        
+
     }, [])
 
     const addInstrumentView = () => {
         navigate('/add_instrument/');
+    }
+
+    const showModal = (e) => {
+        // console.log(e.target.id);
+        for (let i=0; i < allModals.length; i++) {
+            // console.log(allInstruments[i].id);
+            // eslint-disable-next-line
+            if (allInstruments[i].id == (e.target.id)) {
+                allModals[i].style.display = "block";
+                // console.log(allModals[i].display) // will need to find a way to animate this
+            }
+            // console.log(allModals[i].id.split(':')[0]); // serial # for each inst
+        }
+    }
+
+    const hideModal = (e) => {
+        // console.log(e.target.id);
+        for (let i=0; i < allModals.length; i++) {
+            if (e.target.id == allModals[i].id.split(':')[0]) {
+                allModals[i].style.display = "none";
+            }
+        }
+    }
+
+    const deleteInstrument = async (e) => {
+        const inst_id = e.target.id.split(':')[0];
+        // eslint-disable-next-line
+        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/${inst_id}/delete/`, {
+            method: 'DELETE'
+        });
+        // refresh page
+        // window.location.reload(false);
+        fetchAllInstrumentsAfterDelete();
+    }
+    
+    // STATUS CHANGE
+    const statusChange = (e) => {
+        let selected_status = e.target.value;
+        if (selected_status === 'Available') {
+            console.log('available is selected');
+        } else if (selected_status === 'Loaned') {
+            console.log('loaned is selected');
+        } else if (selected_status === 'Broken') {
+            console.log('broken is selected');
+        } else if (selected_status === 'All') {
+            console.log('default is all instruments!');
+        }
     }
 
   return (
@@ -50,42 +113,50 @@ function BrokenInstruments() {
                 <div>
                     <h1>Broken Instruments</h1>
                 </div>
-                {/* <div className="filter-choices">
-                    <form method="get">
-                        <label>Search Bar</label>
-                        <input type="text" />
-                        <label>Instrument Type</label>
-                        <label>Order By</label>
-                        <button className="go" type="submit">Go</button>
-                    </form>
-                </div> */}
+                {/* This will need to be styled and adjusted more later */}
+                <div className="filter-choices">
+                    <label>Status</label>
+                    <select onChange={statusChange}>
+                        <option>All</option>
+                        <option>Available</option>
+                        <option>Loaned</option>
+                        <option>Broken</option>
+                    </select>
+                    <label>Search Bar</label>
+                    <input type="text" />
+                    <label>Instrument Type</label>
+                    <label>Order By</label>
+                    <button className="go">Go</button>
+                </div>
             </div>
             {/* css grid for cards instead of a table */}
             <div className='inst-grid'>
-                {/* <div id="add-instrument-card" className='instrument-card'>
-                    <h1>Add instrument</h1>
-                    <TiPlus id="plus-sign" size={40} />
-                </div> */}
-                {/* ^^^ NOT SURE I WANT THIS ONE AT THE BEGINNING SINCE THERE IS A NAVBAR OPTION TO ADD AN INSTRUMENT ^^^ */}
-                {brokenInstruments.map(inst => {
+                {brokenInstruments?.map(inst => {
                     return (
-                        <div key={inst.instrument_serial} className='instrument-card'>
-                            <h1>{inst.instrument_type}</h1>
-                            <div className='image-container'>
-                                <img 
-                                className='instrument-image' 
-                                src={inst.instrument_image == null ? 'https://intersections.humanities.ufl.edu/files/112815904-stock-vector-no-image-available-icon-flat-vector-illustration-1.jpg' : inst.instrument_image} 
-                                alt={inst.instrument_type + ' with serial number: ' + inst.instrument_serial}
-                                />
+                        <div key={inst.instrument_serial} className='instrument-card-container'>
+                            {/* MODAL START */}
+                            <div id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
+                                <div>Are you sure you would like to delete instrument:</div>
+                                <div id="inst-type-and-serial">{inst.instrument_type}: {inst.instrument_serial}</div>
+                                <div className="modal-buttons">
+                                    <button id={inst.id + ':delbutton'} className='button-success' onClick={deleteInstrument}>Yes, I'm sure</button>
+                                    <button id={inst.instrument_serial} className='button-danger' onClick={hideModal}>On second thought...</button>
+                                </div>
                             </div>
-                            <h2>{inst.instrument_serial}</h2>
-                            <button className='button-primary button-small details-button'>Details</button>
-                            <button className='button-danger button-small delete-button'>Delete</button>
-                            {/* <div className="delete-details-buttons">
-                                <button className='button-primary button-small'>Details</button>
-                                <button className='button-danger button-small'>Delete</button>
-                            </div> */}
-                            {/* need delete and details buttons */}
+                            {/* MODAL END */}
+                            <div className='instrument-card'>
+                                <h1>{inst.instrument_type}</h1>
+                                <div className='image-container'>
+                                    <img 
+                                    className='instrument-image' 
+                                    src={inst.instrument_image === null || inst.instrument_image.slice(-9) === 'undefined' ? 'https://intersections.humanities.ufl.edu/files/112815904-stock-vector-no-image-available-icon-flat-vector-illustration-1.jpg' : inst.instrument_image} 
+                                    alt={inst.instrument_type + ' with serial number: ' + inst.instrument_serial}
+                                    />
+                                </div>
+                                <h2>{inst.instrument_serial}</h2>
+                                <button className='button-primary button-small details-button' onClick={() => {navigate(`/update_instrument/${inst.id}/`)}}>Details</button>
+                                <button id={inst.id} className='button-danger button-small delete-button' onClick={showModal}>Delete</button>
+                            </div>
                         </div>
                     )
                 })}
@@ -94,23 +165,6 @@ function BrokenInstruments() {
                     <TiPlus id="plus-sign" size={40} />
                 </div>
             </div>
-            {/* MODAL START */}
-            {/* will need to create some dynamic javascript to show and hide this modal */}
-            <div style={{'display': 'none'}} onclick="closeModal(this.id)" id="modal-{{ inst.instrument_serial }}" className="modal">
-                <div onclick="checkModal()" className="modal-content" id="modal_content-{{ inst.instrument_serial }}">
-                    <span onclick="closeModal(this.id)" id="close-{{ inst.instrument_serial }}" className="close">&times;</span>
-                    <form action="" className="confirm" method="POST">
-                        {/* csrf_token */}
-                        <p>Are you sure you would like to delete this instrument?</p>
-                        <h3>Instrument_Type: Instrument_Serial</h3>
-                        <p>You will not be able to undo this action.</p>
-                        <input type="hidden" value="{{ inst.id }}" name="id" />
-                        <input type="submit" value="Yes, I'm sure" name="delete" className="confirmBtn" />
-                        <button onclick="closeModal(this.id)" id="cancel-{{ inst.instrument_serial }}" className="closeBtn">On second thought...</button>
-                    </form>
-                </div>
-            </div>
-            {/* MODAL END */}
         </div>
         {user ? <AuthFooter /> : <GenFooter />}
     </div>
