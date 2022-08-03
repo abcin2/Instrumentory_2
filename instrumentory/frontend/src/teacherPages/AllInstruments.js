@@ -16,6 +16,7 @@ function AllInstruments() {
     const { user } = useContext(AuthContext);
 
     const [allInstruments, setAllInstruments] = useState([]);
+    const [allInstrumentsForFilter, setAllInstrumentsForFilter] = useState([]);
     const [allModals, setAllModals] = useState([]);
     // may want to include default images for certain instruments at some point
 
@@ -36,6 +37,7 @@ function AllInstruments() {
             let instrument_data = await response.json();
 
             setAllInstruments(instrument_data.instrument);
+            setAllInstrumentsForFilter(instrument_data.instrument);
             // console.log(instrument_data);
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
@@ -111,7 +113,23 @@ function AllInstruments() {
 
     // INSTRUMENT TYPE CHANGE
     const instrumentChange = (e) => {
-        return
+
+        let selected_type = e.target.value
+        let filtered_instrument_list = []
+        if (selected_type === 'None') {
+            // should give a loading indicator here
+            setAllInstruments(allInstrumentsForFilter)
+        } else {
+            // should give a loading indicator here as well
+            for (let inst of allInstrumentsForFilter) {
+                if (inst.instrument_type === selected_type) {
+                    filtered_instrument_list.push(inst)
+                }
+            }
+
+            setAllInstruments(filtered_instrument_list)
+
+        }
     }
 
   return (
@@ -131,8 +149,9 @@ function AllInstruments() {
                         <option value='Loaned'>Loaned</option>
                         <option value='Broken'>Broken</option>
                     </select>
-                    <label>Instrument Type</label>
-                    <select onChange={instrumentChange}>
+                    <label>Instrument Type</label> 
+                    <select defaultValue={'None'} onChange={instrumentChange}>
+                        <option value="None">None</option>
                         {[...instrumentTypes]?.map(type => {
                             return (
                                 <option key={type} value={type}>{type}</option>
@@ -141,7 +160,6 @@ function AllInstruments() {
                     </select>
                     <label>Search Bar</label>
                     <input type="text" />
-                    <label>Instrument Type</label>
                     <label>Order By</label>
                     <button className="go">Go</button>
                 </div>
@@ -152,7 +170,7 @@ function AllInstruments() {
                     return (
                         <div key={inst.instrument_serial} className='instrument-card-container'>
                             {/* MODAL START */}
-                            <div id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
+                            <div style={{'display': 'none'}} id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
                                 <div>Are you sure you would like to delete instrument:</div>
                                 <div id="inst-type-and-serial">{inst.instrument_type}: {inst.instrument_serial}</div>
                                 <div className="modal-buttons">

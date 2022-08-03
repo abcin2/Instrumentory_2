@@ -16,6 +16,7 @@ function LoanedInstruments() {
     const { user } = useContext(AuthContext);
 
     const [loanedInstruments, setLoanedInstruments] = useState([]);
+    const [loanedInstrumentsForFilter, setLoanedInstrumentsForFilter] = useState([]);
     const [allModals, setAllModals] = useState([]);
 
     const [instrumentTypes, setInstrumentTypes] = useState([]);
@@ -42,6 +43,7 @@ function LoanedInstruments() {
             }
 
             setLoanedInstruments(loaned_instruments);
+            setLoanedInstrumentsForFilter(loaned_instruments);
 
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
@@ -72,7 +74,7 @@ function LoanedInstruments() {
         for (let i=0; i < allModals.length; i++) {
             // console.log(allInstruments[i].id);
             // eslint-disable-next-line
-            if (allInstruments[i].id == (e.target.id)) {
+            if (loanedInstruments[i].id == (e.target.id)) {
                 allModals[i].style.display = "block";
                 // console.log(allModals[i].display) // will need to find a way to animate this
             }
@@ -116,7 +118,23 @@ function LoanedInstruments() {
 
     // INSTRUMENT TYPE CHANGE
     const instrumentChange = (e) => {
-        return
+        
+        let selected_type = e.target.value
+        let filtered_instrument_list = []
+        if (selected_type === 'None') {
+            // should give a loading indicator here
+            setLoanedInstruments(loanedInstrumentsForFilter)
+        } else {
+            // should give a loading indicator here as well
+            for (let inst of loanedInstrumentsForFilter) {
+                if (inst.instrument_type === selected_type) {
+                    filtered_instrument_list.push(inst)
+                }
+            }
+
+            setLoanedInstruments(filtered_instrument_list)
+
+        }
     }
 
   return (
@@ -137,7 +155,8 @@ function LoanedInstruments() {
                         <option value='Broken'>Broken</option>
                     </select>
                     <label>Instrument Type</label>
-                    <select onChange={instrumentChange}>
+                    <select defaultValue={'None'} onChange={instrumentChange}>
+                        <option value="None">None</option>
                         {[...instrumentTypes]?.map(type => {
                             return (
                                 <option key={type} value={type}>{type}</option>
@@ -156,7 +175,7 @@ function LoanedInstruments() {
                     return (
                         <div key={inst.instrument_serial} className='instrument-card-container'>
                             {/* MODAL START */}
-                            <div id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
+                            <div style={{'display': 'none'}} id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
                                 <div>Are you sure you would like to delete instrument:</div>
                                 <div id="inst-type-and-serial">{inst.instrument_type}: {inst.instrument_serial}</div>
                                 <div className="modal-buttons">
