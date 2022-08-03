@@ -95,16 +95,16 @@ function LoanedInstruments() {
     const statusChange = (e) => {
         let selected_status = e.target.value;
         if (selected_status === 'Available') {
-            console.log('available is selected');
+            navigate('/available_instruments/');
         } else if (selected_status === 'Loaned') {
-            console.log('loaned is selected');
+            navigate('/loaned_instruments/');
         } else if (selected_status === 'Broken') {
-            console.log('broken is selected');
+            navigate('/broken_instruments/');
         } else if (selected_status === 'All') {
-            console.log('default is all instruments!');
+            navigate('/full_inventory/');
         }
     }
-
+    
   return (
     <div id="available-instruments-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
@@ -119,7 +119,7 @@ function LoanedInstruments() {
                     <select onChange={statusChange}>
                         <option>All</option>
                         <option>Available</option>
-                        <option>Loaned</option>
+                        <option selected>Loaned</option>
                         <option>Broken</option>
                     </select>
                     <label>Search Bar</label>
