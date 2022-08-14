@@ -55,7 +55,7 @@ function AvailableInstruments() {
 
             // set instrument types
             let types = new Set()
-            for (let inst of availableInstruments) {
+            for (let inst of available_instruments) {
                 types.add(inst.instrument_type)
             }
             setInstrumentTypes(types)
