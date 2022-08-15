@@ -17,6 +17,7 @@ function BrokenInstruments() {
 
     const [brokenInstruments, setBrokenInstruments] = useState([]);
     const [brokenInstrumentsForFilter, setBrokenInstrumentsForFilter] = useState([]);
+    const [brokenInstrumentsForSearch, setBrokenInstrumentsForSearch] = useState([]);
     const [allModals, setAllModals] = useState([]);
 
     const [instrumentTypes, setInstrumentTypes] = useState([]);
@@ -44,6 +45,7 @@ function BrokenInstruments() {
 
             setBrokenInstruments(broken_instruments);
             setBrokenInstrumentsForFilter(broken_instruments);
+            setBrokenInstrumentsForSearch(broken_instruments);
 
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
@@ -85,7 +87,7 @@ function BrokenInstruments() {
     const hideModal = (e) => {
         // console.log(e.target.id);
         for (let i=0; i < allModals.length; i++) {
-            if (e.target.id == allModals[i].id.split(':')[0]) {
+            if (e.target.id === allModals[i].id.split(':')[0]) {
                 allModals[i].style.display = "none";
             }
         }
@@ -119,17 +121,58 @@ function BrokenInstruments() {
     // INSTRUMENT TYPE CHANGE
     const instrumentChange = (e) => {
         
+        // this may also need to reset the search bar
+        let search_bar = document.getElementById('broken-search-bar')
+        search_bar.value = ''
+        // we would need to check for the search bar each time the filter runs
+        // which I guess we COULD do
         let selected_type = e.target.value
         let filtered_instrument_list = []
         if (selected_type === 'None') {
             // should give a loading indicator here
             setBrokenInstruments(brokenInstrumentsForFilter)
+            setBrokenInstrumentsForSearch(brokenInstrumentsForFilter)
         } else {
             // should give a loading indicator here as well
             for (let inst of brokenInstrumentsForFilter) {
                 if (inst.instrument_type === selected_type) {
                     filtered_instrument_list.push(inst)
                 }
+            }
+
+            setBrokenInstruments(filtered_instrument_list)
+            setBrokenInstrumentsForSearch(filtered_instrument_list)
+
+        }
+    }
+
+    // SEARCH BAR
+    const searchBarChange = (e) => {
+
+        let searchable_chars = e.target.value.toLowerCase()
+        let filtered_instrument_list = []
+        if (searchable_chars === '') {
+            // loading indicator here
+            setBrokenInstruments(brokenInstrumentsForSearch)
+        } else {
+            for (let inst of brokenInstrumentsForSearch) {
+                const searchable_inst_array = [
+                    inst.instrument_serial?.toLowerCase(),
+                    inst.instrument_make?.toLowerCase(),
+                    inst.instrument_model?.toLowerCase(),
+                    inst.current_loan_info.student_first_name?.toLowerCase(),
+                    inst.current_loan_info.student_last_name?.toLowerCase(),
+                    inst.current_loan_info.student_email?.toLowerCase(),
+                    inst.current_loan_info.parent_first_name?.toLowerCase(),
+                    inst.current_loan_info.parent_last_name?.toLowerCase(),
+                    inst.current_loan_info.parent_email?.toLowerCase()
+                ]
+                if (searchable_inst_array.includes(searchable_chars)) {
+                    filtered_instrument_list.push(inst)
+                    // only issue is that it searches for each item, not a portion of it
+                    // this means search will not return anythin if spelled incorrectly
+                }
+                // NOT SURE HOW WE COULD DO ACCESSORIES YET...
             }
 
             setBrokenInstruments(filtered_instrument_list)
@@ -164,9 +207,7 @@ function BrokenInstruments() {
                         })}
                     </select>
                     <label>Search Bar</label>
-                    <input type="text" />
-                    <label>Order By</label>
-                    <button className="go">Go</button>
+                    <input id='broken-search-bar' type="text" placeholder='start typing...' onChange={searchBarChange} />
                 </div>
             </div>
             {/* css grid for cards instead of a table */}

@@ -16,8 +16,8 @@ function AllInstruments() {
     const { user } = useContext(AuthContext);
 
     const [allInstruments, setAllInstruments] = useState([]);
-    // const [filteredInstruments, setFilteredInstruments] = useState([]);
     const [allInstrumentsForFilter, setAllInstrumentsForFilter] = useState([]);
+    const [allInstrumentsForSearch, setAllInstrumentsForSearch] = useState([]);
     const [allModals, setAllModals] = useState([]);
     // may want to include default images for certain instruments at some point
 
@@ -39,7 +39,8 @@ function AllInstruments() {
 
             setAllInstruments(instrument_data.instrument);
             setAllInstrumentsForFilter(instrument_data.instrument);
-            // console.log(instrument_data);
+            setAllInstrumentsForSearch(instrument_data.instrument);
+
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
             // console.log(modals);
@@ -81,7 +82,7 @@ function AllInstruments() {
     const hideModal = (e) => {
         // console.log(e.target.id);
         for (let i=0; i < allModals.length; i++) {
-            if (e.target.id == allModals[i].id.split(':')[0]) {
+            if (e.target.id === allModals[i].id.split(':')[0]) {
                 allModals[i].style.display = "none";
             }
         }
@@ -113,124 +114,65 @@ function AllInstruments() {
     }
 
     // INSTRUMENT TYPE CHANGE
-    // const instrumentChange = (e) => {
-
-    //     let selected_type = e.target.value
-    //     let filtered_instrument_list = []
-    //     if (selected_type === 'None') {
-    //         // should give a loading indicator here
-    //         setAllInstruments(allInstrumentsForFilter)
-    //     } else {
-    //         // should give a loading indicator here as well
-    //         for (let inst of allInstrumentsForFilter) {
-    //             if (inst.instrument_type === selected_type) {
-    //                 filtered_instrument_list.push(inst)
-    //             }
-    //         }
-
-    //         setAllInstruments(filtered_instrument_list)
-
-    //     }
-    //     // get list of filtered instruments from every instrument
-    //     // for (let inst of allInstruments) {
-    //     //     if (inst.instrument_type === selected_type) {
-    //     //         // compare it to already filtered list
-    //     //         for (let filt of filteredInstruments) {
-    //     //             // show instruments that are similar between both
-    //     //             if (inst === filt) {
-    //     //                 filtered_instrument_list.add(filt)
-    //     //             }
-    //     //         }
-    //     //     }
-    //     // }
-    //     // // update filtered list
-    //     // setAllInstruments([...filtered_instrument_list]) //still need to test
-    // }
-
-    // // SEARCH BAR CHANGE
-    // const searchChange = (e) => {
-
-    //     // this won't be able to combine the instrument choice with this
-    //     let typed_chars = e.target.value
-    //     let new_search_results = new Set()
-    //     if (typed_chars === "") {
-    //         // loading element here
-    //         setAllInstruments(allInstrumentsForFilter)
-    //     } else {
-    //         for (let inst of allInstrumentsForFilter) {
-    //             Object.keys(inst).filter(key => {
-    //                 if (String(inst[key]).toLowerCase().includes(typed_chars)) {
-    //                     new_search_results.add(inst)
-    //                 }
-    //             })
-    //         }
-
-    //         // this works! But the instrument select and search bar work independantly
-    //         // loop through current allInstruments and only move ones that are the same between them?
-    //         let final_search_results = []
-    //         for (let inst of [...new_search_results]) {
-    //             if (allInstruments.includes(inst)) {
-    //                 final_search_results.push(inst)
-    //             }
-    //         }
-    //         setAllInstruments(final_search_results)
-    //         // this is closer, but when search goes to "", it brings everything back  
-
-    //     }
-    // }
-
-    // SEARCH INSTRUMENT FUNCTION
-    let searchFilterValue;
-    let instrumentFilterValue;
-    const filterInstruments = (e) => {
-
-        let specific_instrument_list = [] // may have to change these to sets
-        let search_bar_results = []
-
-        if (e.target.id === "search-bar") {
-            searchFilterValue = e.target.value
-        } else if (e.target.id === "instrument-select") {
-            instrumentFilterValue = e.target.value
-        }
-
-        // console.log(instrumentFilterValue)
-        // console.log(searchFilterValue)
-        // the above condition sets values and holds them in memory
-        // the below code will execute everytime either filter is used
-        // all in for loop for every search/filter
-        for (let inst of allInstrumentsForFilter) {
-            if (instrumentFilterValue === "None" || instrumentFilterValue === undefined) {
-                specific_instrument_list = [...allInstrumentsForFilter]
-                // this code will execute WITHOUT instrument filter
-            } else if (instrumentFilterValue === inst.instrument_type) {
-                specific_instrument_list.push(inst)
-            }
-        }
-        // console.log(specific_instrument_list)
-        console.log(instrumentFilterValue)
-        console.log(searchFilterValue)
-        // another for loop for just the search bar after the instrument type is established
-        // something wrong with below code it's resetting the input value variables
-        for (let inst of specific_instrument_list) {
-            if (searchFilterValue === "" || searchFilterValue === undefined) {
-                search_bar_results = [...specific_instrument_list]
-            } else {
-                // below code resets variables for some reason, try for loop instead
-                // Object.keys(inst).find(key => {
-                //     // console.log(String(inst[key]).toLowerCase())
-                //     // console.log(instrumentFilterValue)
-                //     if (String(inst[key]).toLowerCase().includes(instrumentFilterValue)) {
-                //         search_bar_results.push(inst)
-                //     }
-                // })
-                for (const [key, value] of Object.entries(inst)) {
-                    console.log('test')
+    const instrumentChange = (e) => {
+        
+        // this may also need to reset the search bar
+        let search_bar = document.getElementById('all-search-bar')
+        search_bar.value = ''
+        // we would need to check for the search bar each time the filter runs
+        // which I guess we COULD do
+        let selected_type = e.target.value
+        let filtered_instrument_list = []
+        if (selected_type === 'None') {
+            // should give a loading indicator here
+            setAllInstruments(allInstrumentsForFilter) // always full list
+            setAllInstrumentsForSearch(allInstrumentsForFilter)
+        } else {
+            // should give a loading indicator here as well
+            for (let inst of allInstrumentsForFilter) {
+                if (inst.instrument_type === selected_type) {
+                    filtered_instrument_list.push(inst)
                 }
             }
+
+            setAllInstruments(filtered_instrument_list)
+            setAllInstrumentsForSearch(filtered_instrument_list)
+
         }
+    }
 
-        setAllInstruments(search_bar_results)
+    // SEARCH BAR
+    const searchBarChange = (e) => {
 
+        let searchable_chars = e.target.value.toLowerCase()
+        let filtered_instrument_list = []
+        if (searchable_chars === '') {
+            // loading indicator here
+            setAllInstruments(allInstrumentsForSearch)
+        } else {
+            for (let inst of allInstrumentsForSearch) {
+                const searchable_inst_array = [
+                    inst.instrument_serial?.toLowerCase(),
+                    inst.instrument_make?.toLowerCase(),
+                    inst.instrument_model?.toLowerCase(),
+                    inst.current_loan_info.student_first_name?.toLowerCase(),
+                    inst.current_loan_info.student_last_name?.toLowerCase(),
+                    inst.current_loan_info.student_email?.toLowerCase(),
+                    inst.current_loan_info.parent_first_name?.toLowerCase(),
+                    inst.current_loan_info.parent_last_name?.toLowerCase(),
+                    inst.current_loan_info.parent_email?.toLowerCase()
+                ]
+                if (searchable_inst_array.includes(searchable_chars)) {
+                    filtered_instrument_list.push(inst)
+                    // only issue is that it searches for each item, not a portion of it
+                    // this means search will not return anythin if spelled incorrectly
+                }
+                // NOT SURE HOW WE COULD DO ACCESSORIES YET...
+            }
+
+            setAllInstruments(filtered_instrument_list)
+
+        }
     }
 
   return (
@@ -251,7 +193,7 @@ function AllInstruments() {
                         <option value='Broken'>Broken</option>
                     </select>
                     <label>Instrument Type</label> 
-                    <select id="instrument-select" defaultValue={'None'} onChange={filterInstruments}>
+                    <select id="instrument-select" defaultValue={'None'} onChange={instrumentChange}>
                         <option value="None">None</option>
                         {[...instrumentTypes]?.map(type => {
                             return (
@@ -260,9 +202,7 @@ function AllInstruments() {
                         })}
                     </select>
                     <label>Search Bar</label>
-                    <input id="search-bar" type="text" onChange={filterInstruments} />
-                    <label>Order By</label>
-                    <button className="go">Go</button>
+                    <input id="all-search-bar" type="text" placeholder='start typing...' onChange={searchBarChange} />
                 </div>
             </div>
             {/* css grid for cards instead of a table */}
