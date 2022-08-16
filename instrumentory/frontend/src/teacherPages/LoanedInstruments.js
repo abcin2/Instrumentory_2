@@ -167,12 +167,13 @@ function LoanedInstruments() {
                     inst.current_loan_info.parent_last_name?.toLowerCase(),
                     inst.current_loan_info.parent_email?.toLowerCase()
                 ]
-                if (searchable_inst_array.includes(searchable_chars)) {
-                    filtered_instrument_list.push(inst)
-                    // only issue is that it searches for each item, not a portion of it
-                    // this means search will not return anythin if spelled incorrectly
-                }
-                // NOT SURE HOW WE COULD DO ACCESSORIES YET...
+                
+                const found_match = searchable_inst_array.filter(elem => {
+                    if (elem?.includes(searchable_chars)) { return elem }
+                })
+
+                if (found_match.length != 0) { filtered_instrument_list.push(inst) }
+                
             }
 
             setLoanedInstruments(filtered_instrument_list)
@@ -190,14 +191,14 @@ function LoanedInstruments() {
                 </div>
                 {/* This will need to be styled and adjusted more later */}
                 <div className="filter-choices">
-                    <label>Status</label>
-                    <select defaultValue={'Loaned'} onChange={statusChange}>
+                    <label>Status: </label>
+                    <select className='status-filter' defaultValue={'Loaned'} onChange={statusChange}>
                         <option value='All'>All</option>
                         <option value='Available'>Available</option>
                         <option value='Loaned'>Loaned</option>
                         <option value='Broken'>Broken</option>
                     </select>
-                    <label>Instrument Type</label>
+                    <label>Instrument Type: </label>
                     <select defaultValue={'None'} onChange={instrumentChange}>
                         <option value="None">None</option>
                         {[...instrumentTypes]?.map(type => {
@@ -206,8 +207,9 @@ function LoanedInstruments() {
                             )
                         })}
                     </select>
-                    <label>Search Bar</label>
-                    <input id='loaned-search-bar' type="text" placeholder='start typing...' onChange={searchBarChange} />
+                    <div className='search-bar'>
+                        <input id='loaned-search-bar' type="text" placeholder='start typing...' onChange={searchBarChange} />
+                    </div>
                 </div>
             </div>
             {/* css grid for cards instead of a table */}
