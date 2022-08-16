@@ -35,9 +35,9 @@ function GenFooter() {
                         What's Next?
                     </div>
                     <div className='links-section-links'>
-                        <NavLink to='#' className="no-decoration">Digital Library</NavLink>
-                        <NavLink to='#' className="no-decoration">Docusign</NavLink>
-                        <NavLink to='#' className="no-decoration">Mobile App</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Digital Library</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Docusign</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Mobile App</NavLink>
                     </div>
                 </div>
                 <div className='links-section'>

@@ -22,6 +22,8 @@ import Contact from './pages/Contact';
 import AddInstrument from './teacherPages/AddInstrument';
 import AllInstruments from './teacherPages/AllInstruments';
 import UpdateInstrument from './teacherPages/UpdateInstrument';
+import WhatsNext from './pages/WhatsNext';
+import Account from './pages/Account';
 
 function App() {
 
@@ -36,6 +38,8 @@ function App() {
         {/* General Routes */}
         <Route exact path="/" element={<AuthProvider><LoggedInRoute><Home /></LoggedInRoute></AuthProvider>} />
         <Route exact path="contact/" element={<AuthProvider><Contact /></AuthProvider>} />
+        <Route exact path="whats_next/" element={<AuthProvider><WhatsNext /></AuthProvider>} />
+        <Route exact path="account/" element={<AuthProvider><Account /></AuthProvider>} /> 
         {/* Auth Routes */}
         <Route exact path="login/" element={<AuthProvider><Login /></AuthProvider>} />
         <Route exact path="register/" element={<Register />} />

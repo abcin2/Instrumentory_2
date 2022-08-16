@@ -24,6 +24,7 @@ function AuthFooter() {
                     </div>
                     <div className='links-section-links'>
                         <NavLink onClick={logoutUser} to='/login/' className="no-decoration">Logout</NavLink>
+                        <NavLink to='/account/' className="no-decoration">My Account</NavLink>
                     </div>
                 </div>
                 <div className='links-section'>
@@ -58,9 +59,9 @@ function AuthFooter() {
                         What's Next?
                     </div>
                     <div className='links-section-links'>
-                        <NavLink to='#' className="no-decoration">Digital Library</NavLink>
-                        <NavLink to='#' className="no-decoration">Docusign</NavLink>
-                        <NavLink to='#' className="no-decoration">Mobile App</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Digital Library</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Docusign</NavLink>
+                        <NavLink to='/whats_next/' className="no-decoration">Mobile App</NavLink>
                     </div>
                 </div>
                 <div className='links-section'>
