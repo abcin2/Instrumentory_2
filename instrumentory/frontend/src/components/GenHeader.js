@@ -127,14 +127,14 @@ function GenHeader() {
           <li className="nav-link float-left"><p></p></li>
           <li className='nav-link float-left'><button onClick={showNavLinksSide} id='all-links'><GiHamburgerMenu size={15} /></button></li>
           <li className="nav-link float-left"><a href="/contact/">CONTACT</a></li>
-          <li className="nav-link float-left"><a href="#">WHAT'S NEXT?</a></li>
+          <li className="nav-link float-left"><a href="/whats_next/">WHAT'S NEXT?</a></li>
         </ul>
         <div id="nav-links-side-background" onClick={closeNavLinksSide} className='nav-links-side-background display-none'>
         </div>
           <ul id="nav-links-side" className="float-left display-none">
             <li id="hello-side" className="nav-link-abs"><p>Hello!</p></li>
-            <li className="nav-link-abs"><a href="#">CONTACT</a></li>
-            <li className="nav-link-abs"><a href="#">WHAT'S NEXT?</a></li>
+            <li className="nav-link-abs"><a href="/contact/">CONTACT</a></li>
+            <li className="nav-link-abs"><a href="/whats_next/">WHAT'S NEXT?</a></li>
             <li className="nav-link-abs"><a style={{'marginTop': '1rem'}} id="logout-link" href="/login/">Login</a></li>
           </ul>
           <div onClick={closeNavLinksSide} id="close-button" className='display-none'><VscClose size={30} /></div>

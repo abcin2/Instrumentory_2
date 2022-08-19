@@ -16,6 +16,44 @@
     margin-bottom: 4rem;
 }
 
+/* ----------------------------------------------------------- */
+
+
+/* SEARCH BAR STYLES */
+
+.filter-choices {
+    margin: auto;
+    padding: 1rem;
+    border-radius: 0.45rem;
+    box-shadow: var(--shadow-color) 0 0.25rem 0.45rem 0.005rem;
+    border: 1px solid var(--shadow-color);
+    width: max-content;
+    font-weight: 100;
+}
+
+.filter-choices label {
+    font-size: 1.15rem;
+}
+
+.filter-choices select {
+    font-size: 1.15rem;
+    font-weight: 100;
+}
+
+.status-filter {
+    margin-right: 1rem;
+}
+
+.filter-choices .search-bar {
+    margin-top: 1rem;
+}
+
+.filter-choices .search-bar input {
+    width: 100%;
+    box-sizing: border-box;
+    font-size: 1.15rem;
+    font-weight: 100;
+}
 
 /* ----------------------------------------------------------- */
 

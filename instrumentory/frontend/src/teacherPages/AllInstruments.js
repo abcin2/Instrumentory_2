@@ -16,24 +16,31 @@ function AllInstruments() {
     const { user } = useContext(AuthContext);
 
     const [allInstruments, setAllInstruments] = useState([]);
+    const [allInstrumentsForFilter, setAllInstrumentsForFilter] = useState([]);
+    const [allInstrumentsForSearch, setAllInstrumentsForSearch] = useState([]);
     const [allModals, setAllModals] = useState([]);
     // may want to include default images for certain instruments at some point
 
+    const [instrumentTypes, setInstrumentTypes] = useState([]);
+
     let navigate = useNavigate()
 
-    const fetchAllInstruments = async () => {
-        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+    const fetchAllInstrumentsAfterDelete = async () => {
+        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
         let instrument_data = await response.json();
-        setAllInstruments(instrument_data);
+
+        setAllInstruments(instrument_data.instrument);
     }
 
     useEffect(() => {
         async function fetchAllInstruments() {
-            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/instruments/`);
+            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${user.user_id}`);
             let instrument_data = await response.json();
-            setAllInstruments(instrument_data);
-            // console.log(instrument_data);
-            // need to make sure modals are initially {display: none}
+
+            setAllInstruments(instrument_data.instrument);
+            setAllInstrumentsForFilter(instrument_data.instrument);
+            setAllInstrumentsForSearch(instrument_data.instrument);
+
             const modals = document.getElementsByClassName('delete-instrument-card');
             setAllModals(modals);
             // console.log(modals);
@@ -41,8 +48,18 @@ function AllInstruments() {
                 // console.log(modals[i]);
                 modals[i].style.display = "none";
             }
+
+            // set instrument types
+            let types = new Set()
+            for (let inst of instrument_data.instrument) {
+                types.add(inst.instrument_type)
+                // it would be cool to put them in score order at some point
+            }
+            setInstrumentTypes(types)
         }
+
         fetchAllInstruments();
+
     }, [])
 
     const addInstrumentView = () => {
@@ -65,7 +82,7 @@ function AllInstruments() {
     const hideModal = (e) => {
         // console.log(e.target.id);
         for (let i=0; i < allModals.length; i++) {
-            if (e.target.id == allModals[i].id.split(':')[0]) {
+            if (e.target.id === allModals[i].id.split(':')[0]) {
                 allModals[i].style.display = "none";
             }
         }
@@ -79,20 +96,83 @@ function AllInstruments() {
         });
         // refresh page
         // window.location.reload(false);
-        fetchAllInstruments();
+        fetchAllInstrumentsAfterDelete();
     }
 
     // STATUS CHANGE
     const statusChange = (e) => {
         let selected_status = e.target.value;
         if (selected_status === 'Available') {
-            console.log('available is selected');
+            navigate('/available_instruments/');
         } else if (selected_status === 'Loaned') {
-            console.log('loaned is selected');
+            navigate('/loaned_instruments/');
         } else if (selected_status === 'Broken') {
-            console.log('broken is selected');
+            navigate('/broken_instruments/');
         } else if (selected_status === 'All') {
-            console.log('default is all instruments!');
+            navigate('/full_inventory/');
+        }
+    }
+
+    // INSTRUMENT TYPE CHANGE
+    const instrumentChange = (e) => {
+        
+        // this may also need to reset the search bar
+        let search_bar = document.getElementById('all-search-bar')
+        search_bar.value = ''
+        // we would need to check for the search bar each time the filter runs
+        // which I guess we COULD do
+        let selected_type = e.target.value
+        let filtered_instrument_list = []
+        if (selected_type === 'None') {
+            // should give a loading indicator here
+            setAllInstruments(allInstrumentsForFilter) // always full list
+            setAllInstrumentsForSearch(allInstrumentsForFilter)
+        } else {
+            // should give a loading indicator here as well
+            for (let inst of allInstrumentsForFilter) {
+                if (inst.instrument_type === selected_type) {
+                    filtered_instrument_list.push(inst)
+                }
+            }
+
+            setAllInstruments(filtered_instrument_list)
+            setAllInstrumentsForSearch(filtered_instrument_list)
+
+        }
+    }
+
+    // SEARCH BAR
+    const searchBarChange = (e) => {
+
+        let searchable_chars = e.target.value.toLowerCase()
+        let filtered_instrument_list = []
+        if (searchable_chars === '') {
+            // loading indicator here
+            setAllInstruments(allInstrumentsForSearch)
+        } else {
+            for (let inst of allInstrumentsForSearch) {
+                const searchable_inst_array = [
+                    inst.instrument_serial?.toLowerCase(),
+                    inst.instrument_make?.toLowerCase(),
+                    inst.instrument_model?.toLowerCase(),
+                    inst.current_loan_info.student_first_name?.toLowerCase(),
+                    inst.current_loan_info.student_last_name?.toLowerCase(),
+                    inst.current_loan_info.student_email?.toLowerCase(),
+                    inst.current_loan_info.parent_first_name?.toLowerCase(),
+                    inst.current_loan_info.parent_last_name?.toLowerCase(),
+                    inst.current_loan_info.parent_email?.toLowerCase()
+                ]
+                
+                const found_match = searchable_inst_array.filter(elem => {
+                    if (elem?.includes(searchable_chars)) { return elem }
+                })
+
+                if (found_match.length != 0) { filtered_instrument_list.push(inst) }
+                
+            }
+
+            setAllInstruments(filtered_instrument_list)
+
         }
     }
 
@@ -106,32 +186,34 @@ function AllInstruments() {
                 </div>
                 {/* This will need to be styled and adjusted more later */}
                 <div className="filter-choices">
-                    <label>Status</label>
-                    <select onChange={statusChange}>
-                        <option>All</option>
-                        <option>Available</option>
-                        <option>Loaned</option>
-                        <option>Broken</option>
+                    <label>Status: </label>
+                    <select defaultValue={'All'} onChange={statusChange}>
+                        <option value='All'>All</option>
+                        <option value='Available'>Available</option>
+                        <option value='Loaned'>Loaned</option>
+                        <option value='Broken'>Broken</option>
                     </select>
-                    <label>Search Bar</label>
-                    <input type="text" />
-                    <label>Instrument Type</label>
-                    <label>Order By</label>
-                    <button className="go">Go</button>
+                    <label>Instrument Type: </label> 
+                    <select id="instrument-select" defaultValue={'None'} onChange={instrumentChange}>
+                        <option value="None">None</option>
+                        {[...instrumentTypes]?.map(type => {
+                            return (
+                                <option key={type} value={type}>{type}</option>
+                            )
+                        })}
+                    </select>
+                    <div className='search-bar'>
+                        <input id="all-search-bar" type="text" placeholder='start typing...' onChange={searchBarChange} />
+                    </div>
                 </div>
             </div>
             {/* css grid for cards instead of a table */}
             <div className='inst-grid'>
-                {/* <div id="add-instrument-card" className='instrument-card'>
-                    <h1>Add instrument</h1>
-                    <TiPlus id="plus-sign" size={40} />
-                </div> */}
-                {/* ^^^ NOT SURE I WANT THIS ONE AT THE BEGINNING SINCE THERE IS A NAVBAR OPTION TO ADD AN INSTRUMENT ^^^ */}
-                {allInstruments.map(inst => {
+                {allInstruments?.map(inst => {
                     return (
                         <div key={inst.instrument_serial} className='instrument-card-container'>
                             {/* MODAL START */}
-                            <div id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
+                            <div style={{'display': 'none'}} id={inst.instrument_serial + ':modal'} className='card delete-instrument-card'>
                                 <div>Are you sure you would like to delete instrument:</div>
                                 <div id="inst-type-and-serial">{inst.instrument_type}: {inst.instrument_serial}</div>
                                 <div className="modal-buttons">

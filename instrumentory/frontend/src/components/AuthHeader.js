@@ -143,8 +143,8 @@ function AuthHeader() {
             </ul>
           </div></li>
           <li className="nav-link float-left"><a href="/contact/">CONTACT</a></li>
-          <li className="nav-link float-left"><a href="#">WHAT'S NEXT?</a></li>
-          <li className="nav-link float-left"><a href="#">ACCOUNT</a></li>
+          <li className="nav-link float-left"><a href="/whats_next/">WHAT'S NEXT?</a></li>
+          <li className="nav-link float-left"><a href="/account/">ACCOUNT</a></li>
         </ul>
         <div id="nav-links-side-background" onClick={closeNavLinksSide} className='nav-links-side-background display-none'>
         </div>
@@ -159,8 +159,8 @@ function AuthHeader() {
             <li className="nav-link-abs-header"><p>ADD ITEM</p></li>
             <li className="nav-link-abs ind" style={{'marginBottom': '1rem'}}><a href="/add_instrument/">Instrument</a></li>
             <li className="nav-link-abs"><a href="/contact/">CONTACT</a></li>
-            <li className="nav-link-abs"><a href="#">WHAT'S NEXT?</a></li>
-            <li className="nav-link-abs"><a href="#">ACCOUNT</a></li>
+            <li className="nav-link-abs"><a href="/whats_next/">WHAT'S NEXT?</a></li>
+            <li className="nav-link-abs"><a href="/account/">ACCOUNT</a></li>
             <li className="nav-link-abs"><p style={{'marginTop': '1rem'}} id="logout-link" onClick={logoutUser}>Log Out</p></li>
           </ul>
           <div onClick={closeNavLinksSide} id="close-button" className='display-none'><VscClose size={30} /></div>

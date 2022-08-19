@@ -115,8 +115,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             document.getElementById('instrument-model').value = data.instrument_model;
             setInstrumentSerial(data.instrument_serial);
             document.getElementById('instrument-serial').value = data.instrument_serial;
-            setInstrumentImage(null); // needs to change to conditional until I figure out the image issue
-            document.getElementById('instrument-image').value = null;
+            {data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null)};
             // Accessories Data
             setMouthpiece(data.accessories.instrument_mouthpiece);
             document.getElementById('mouthpiece').checked = data.accessories.instrument_mouthpiece;
@@ -171,8 +170,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
         console.log('data retrieved')
     }, [id])
 
-    // console.log(process.env.REACT_APP_DATABASE_HOST)
-    // console.log(document.getElementById('contract').checked)
     // I could dynamically change the checkbox options depending on what instrument is selected.
     // I could remove the options for accessories for instruments that are not currently in the database.
     // These could be added later if/when they are needed.
@@ -508,9 +505,9 @@ function UpdateInstrument() { // will probably need to add every state variable 
                     <form onSubmit={updateRepairInfo}>
                         <fieldset id="repair-fieldset-inputs" disabled>
                             <label htmlFor="cosmetic-issues">Cosemtic Issues</label>
-                            <textarea id="cosmetic-issues" onChange={e => setCosmeticIssues(e.target.value)}/>
+                            <textarea id="cosmetic-issues" onChange={e => {e.target.value === '' ? setCosmeticIssues(null) : setCosmeticIssues(e.target.value)}}/>
                             <label htmlFor="hardware-issues">Hardware Issues</label>
-                            <textarea id="hardware-issues" onChange={e => setHardwareIssues(e.target.value)}/>
+                            <textarea id="hardware-issues" onChange={e => {e.target.value === '' ? setHardwareIssues(null) : setHardwareIssues(e.target.value)}}/>
                         </fieldset>
                         <div id='repair-info-submit-div'>
                             <button disabled={disabled} id="update-repair-info-button" className='button button-success' onClick={editedRepairFormDisabled ? showEditRepairForm : updateRepairInfo}>Update Repair Info</button>

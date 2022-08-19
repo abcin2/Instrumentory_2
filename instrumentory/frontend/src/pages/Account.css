@@ -1,0 +1,16 @@
+#account-full-page {
+    position: absolute;
+    height: max-content;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom;
+    min-height: 100vh;
+}
+
+#account-page {
+    text-align: center;
+    font-weight: 100;
+    min-height: 40vh;
+}
