@@ -119,7 +119,7 @@ function AuthHeader() {
   }
   
   return (
-    <div id="full-header" className='page'>
+    <div id="full-header">
         <ul className="nav-ul">
           <li className="nav-text float-left"><p id="header-logo"><NavLink to="/" className='logo'>Instrumentory</NavLink></p></li>
           {/* Float Right Items */}
