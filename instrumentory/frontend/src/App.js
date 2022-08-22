@@ -9,7 +9,6 @@ import ForgotPassword from './pages/ForgotPassword';
 import Dashboard from './teacherPages/Dashboard';
 
 import PrivateRoute from './utils/PrivateRoute';
-import LoggedInRoute from './utils/LoggedInRoute';
 import { AuthProvider } from './context/AuthContext';
 import AvailableInstruments from './teacherPages/AvailableInstruments';
 import LoanedInstruments from './teacherPages/LoanedInstruments';
@@ -36,7 +35,7 @@ function App() {
         {/* Example of using Header on only certain pages */}
         {/* <Route exact path="/" element={<><Header /><ExampleListPage /></>} /> */}
         {/* General Routes */}
-        <Route exact path="/" element={<AuthProvider><LoggedInRoute><Home /></LoggedInRoute></AuthProvider>} />
+        <Route exact path="/" element={<AuthProvider><Home /></AuthProvider>} />
         <Route exact path="contact/" element={<AuthProvider><Contact /></AuthProvider>} />
         <Route exact path="whats_next/" element={<AuthProvider><WhatsNext /></AuthProvider>} />
         <Route exact path="account/" element={<AuthProvider><Account /></AuthProvider>} /> 
