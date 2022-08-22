@@ -17,7 +17,9 @@ function Register() {
     const [error, setError] = useState('');
 
     const [role, setRole] = useState('');
+    // eslint-disable-next-line
     const [schoolDistrict, setSchoolDistrict] = useState('');
+    // eslint-disable-next-line
     const [schoolSite, setSchoolSite] = useState('');
 
     const [districtOptions, setDistrictOptions] = useState([]);
@@ -28,8 +30,11 @@ function Register() {
     let site_input_value = ref.current ? ref.current.children[1].children[0].value : null
 
     useEffect(() => {
+
         getSchoolInfo()
         setSites()
+
+    // eslint-disable-next-line
     }, [district_input_value])
 
     let getSchoolInfo = async () => {
@@ -146,6 +151,7 @@ function Register() {
                                 // teachers and students can verify with district mail in order to ensure they are really part of the district
                             })
                         })
+                        // eslint-disable-next-line
                         let user_data = await response.json()
                         if (response.ok) {
                             // try to update group and school info here

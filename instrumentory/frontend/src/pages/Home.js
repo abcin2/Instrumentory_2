@@ -49,7 +49,7 @@ function Home() {
         {/* Not sure if this worked, I will have to test it with another page */}
         <div className='page'>
             <div className='title'>
-                <img id="home-image-one" src={imageOne} />
+                <img alt='A teacher helping a young musician play upright bass' id="home-image-one" src={imageOne} />
                 <div id="title-text">
                     <h1>Instrumentory</h1>
                     <h2>Organize your program so you can focus on what really matters.</h2>

@@ -11,6 +11,7 @@ function Dashboard() {
 
     const { user } = useContext(AuthContext);
 
+    // eslint-disable-next-line
     const [allInstruments, setAllInstruments] = useState([]);
 
     const [availableLength, setAvailableLength] = useState(0);

@@ -41,7 +41,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
     const [swab, setSwab] = useState(false);
 
     // loan info
-    const [loanInfo, setLoanInfo] = useState([]);
     const [studentFirstName, setStudentFirstName] = useState('');
     const [studentLastName, setStudentLastName] = useState('');
     const [studentEmail, setStudentEmail] = useState('');
@@ -54,7 +53,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
     const [contractAccepted, setContractAccepted] = useState(false);
 
     // repair info
-    const [repairInfo, setRepairInfo] = useState([]);
     const [cosmeticIssues, setCosmeticIssues] = useState(null);
     const [hardwareIssues, setHardwareIssues] = useState(null);
 
@@ -115,7 +113,7 @@ function UpdateInstrument() { // will probably need to add every state variable 
             document.getElementById('instrument-model').value = data.instrument_model;
             setInstrumentSerial(data.instrument_serial);
             document.getElementById('instrument-serial').value = data.instrument_serial;
-            {data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null)};
+            data.instrument_image ? setInstrumentImage('/uploads/' + data.instrument_image.split('/')[data.instrument_image.split('/').length-1]) : setInstrumentImage(null);
             // Accessories Data
             setMouthpiece(data.accessories.instrument_mouthpiece);
             document.getElementById('mouthpiece').checked = data.accessories.instrument_mouthpiece;
@@ -136,7 +134,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
             setSwab(data.accessories.instrument_swab);
             document.getElementById('swab').checked = data.accessories.instrument_swab;
             // Loan Info
-            setLoanInfo(data.current_loan_info);
             setStudentFirstName(data.current_loan_info.student_first_name);
             document.getElementById('student_first_name').value = data.current_loan_info.student_first_name;
             setStudentLastName(data.current_loan_info.student_last_name);
@@ -159,7 +156,6 @@ function UpdateInstrument() { // will probably need to add every state variable 
             document.getElementById('contract').checked = data.current_loan_info.accept_contract;
             // Repair Data
             if (data.repair_info) {
-                setRepairInfo(data.repair_info);
                 document.getElementById('cosmetic-issues').value = data.repair_info.instrument_cosmetic_issues;
                 setCosmeticIssues(data.repair_info.instrument_cosmetic_issues);
                 document.getElementById('hardware-issues').value = data.repair_info.instrument_hardware_issues;

@@ -20,5 +20,26 @@ from django.views.generic import TemplateView
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api/', include('api.urls')),
+    # ALL FRONTEND URLS
+    # General
     path('', TemplateView.as_view(template_name='index.html')),
+    path('contact/', TemplateView.as_view(template_name='index.html')),
+    path('whats_next/', TemplateView.as_view(template_name='index.html')),
+    path('account/', TemplateView.as_view(template_name='index.html')),
+    # Auth Routes
+    path('login/', TemplateView.as_view(template_name='index.html')),
+    path('register/', TemplateView.as_view(template_name='index.html')),
+    path('forgot_password/', TemplateView.as_view(template_name='index.html')),
+    path('verify_email_sent/', TemplateView.as_view(template_name='index.html')),
+    path('account_confirm_email/:key/', TemplateView.as_view(template_name='index.html')),
+    path('account_change_password/:id/:pk/:key', TemplateView.as_view(template_name='index.html')),
+    # Teacher Routes
+    path('dashboard/', TemplateView.as_view(template_name='index.html')),
+    path('dashboard_test/', TemplateView.as_view(template_name='index.html')),
+    path('full_inventory/', TemplateView.as_view(template_name='index.html')),
+    path('available_instruments/', TemplateView.as_view(template_name='index.html')),
+    path('loaned_instruments/', TemplateView.as_view(template_name='index.html')),
+    path('broken_instruments/', TemplateView.as_view(template_name='index.html')),
+    path('add_instrument/', TemplateView.as_view(template_name='index.html')),
+    path('update_instrument/:id/', TemplateView.as_view(template_name='index.html')),
 ]

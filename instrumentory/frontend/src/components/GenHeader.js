@@ -1,6 +1,5 @@
 import './Header.css';
-import React, { useContext } from 'react';
-import AuthContext from '../context/AuthContext';
+import React from 'react';
 
 import { GiHamburgerMenu } from 'react-icons/gi';
 import { VscClose } from 'react-icons/vsc';
@@ -73,51 +72,9 @@ function GenHeader() {
     }, 500) // this number is equal to number of milliseconds it takes to complete the animation
 
   }
-
-  const showViewsLinks = () => {
-    
-    let links = document.getElementById('views-links');
-
-    links.classList.remove('display-none');
-    links.classList.remove('stretch-out');
-    
-    links.classList.add('display-flex');
-    links.classList.add('stretch-out');
-  }
-
-  const hideViewsLinks = () => {
-    
-    let links = document.getElementById('views-links');
-
-    links.classList.remove('display-flex');
-    links.classList.remove('stretch-out');
-
-    links.classList.add('display-none');
-  }
-
-  const showAddItemsLinks = () => {
-    
-    let links = document.getElementById('add-items-links');
-
-    links.classList.remove('display-none');
-    links.classList.remove('stretch-out');
-    
-    links.classList.add('display-block');
-    links.classList.add('stretch-out');
-  }
-
-  const hideAddItemsLinks = () => {
-    
-    let links = document.getElementById('add-items-links');
-
-    links.classList.remove('display-block');
-    links.classList.remove('stretch-out');
-
-    links.classList.add('display-none');
-  }
   
   return (
-    <div id="full-header" className='page'>
+    <div id="full-header">
         <ul className="nav-ul">
         <li className="nav-text float-left"><p id="header-logo"><NavLink to="/" className='logo'>Instrumentory</NavLink></p></li>
           {/* Float Right Items */}
