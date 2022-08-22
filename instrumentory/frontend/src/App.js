@@ -49,7 +49,6 @@ function App() {
         <Route exact path="account_change_password/:id/:pk/:key" element={<ChangePassword />} />
         {/* Teacher Routes */}
         <Route exact path="dashboard/" element={<AuthProvider><PrivateRoute><Dashboard /></PrivateRoute></AuthProvider>} />
-        <Route exact path="dashboard_test/" element={<AuthProvider><Dashboard /></AuthProvider>} />
         <Route exact path="full_inventory/" element={<AuthProvider><PrivateRoute><AllInstruments /></PrivateRoute></AuthProvider>} />
         <Route exact path="available_instruments/" element={<AuthProvider><PrivateRoute><AvailableInstruments /></PrivateRoute></AuthProvider>} />
         <Route exact path="loaned_instruments/" element={<AuthProvider><PrivateRoute><LoanedInstruments /></PrivateRoute></AuthProvider>} />
