@@ -11,7 +11,7 @@ function VerifyEmailSent() {
             getImages()
         }
         
-    }, [])
+    }, [image])
 
     let getImages = async () => {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/website_images/`);
@@ -28,7 +28,7 @@ function VerifyEmailSent() {
     <div id="verify-email-sent-full-page">
         <div className='page'>
             <h1>Congratulations!</h1>
-            <img id="congrats-image" src={image} />
+            <img alt='Stick figrues celebrating' id="congrats-image" src={image} />
             <h2>You have successfully registered for a new account.</h2>
             <h3>Please check your email and follow the instructions to activate your new account.</h3>
             <p>Already activated your account? <a href='/login/'>Login here</a>.</p>

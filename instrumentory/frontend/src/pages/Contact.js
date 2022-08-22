@@ -23,6 +23,7 @@ function Contact() {
     // const [imageOne, setImageOne] = useState('');
 
     useEffect(() => {
+
         getUserEmail()
 
         if (images.length !== 0) {
@@ -37,6 +38,7 @@ function Contact() {
             getImages()
         }
 
+    // eslint-disable-next-line
     }, [images])
 
     let getUserEmail = async () => {
@@ -65,6 +67,7 @@ function Contact() {
                 'message': message,
             })
         })
+        // eslint-disable-next-line
         let data = await response.json()
         // console.log(data.detail)
         if (response.status === 200) {

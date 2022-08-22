@@ -21,7 +21,8 @@ function AccountConfirmEmail() {
             getEmail()
         }
 
-    }, [])
+    // eslint-disable-next-line
+    }, [email])
 
     // dj-rest-auth/registration/views.py (added GET request which originally was not allowed)
     // get request passes the user email based on the key in the url

@@ -22,7 +22,8 @@ function ChangePassword() {
             getEmail()
         }
 
-    }, [])
+    // eslint-disable-next-line
+    }, [email])
 
     const getEmail = async () => {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${id}`); // this is called from api/urls.py

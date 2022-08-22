@@ -168,11 +168,12 @@ function AvailableInstruments() {
                     inst.current_loan_info.parent_email?.toLowerCase()
                 ]
 
+                // eslint-disable-next-line
                 const found_match = searchable_inst_array.filter(elem => {
                     if (elem?.includes(searchable_chars)) { return elem }
                 })
 
-                if (found_match.length != 0) { filtered_instrument_list.push(inst) }
+                if (found_match.length !== 0) { filtered_instrument_list.push(inst) }
 
             }
 
