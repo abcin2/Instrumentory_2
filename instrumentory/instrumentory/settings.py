@@ -32,8 +32,7 @@ SECRET_KEY = env('SECRET_KEY')
 DEBUG = False
 
 ALLOWED_HOSTS = [
-    'instrumentory-env.eba-fvessknp.us-west-2.elasticbeanstalk.com',
-    'localhost'
+    'localhost',
 ]
 
 
