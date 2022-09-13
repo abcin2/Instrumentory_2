@@ -34,7 +34,7 @@ DEBUG = True
 
 ALLOWED_HOSTS = [
     'localhost',
-    'https://instrumentory2.herokuapp.com/',
+    'instrumentory2.herokuapp.com',
 ]
 
 
