@@ -13,9 +13,9 @@ colorama==0.4.3
 cryptography==38.0.1
 distlib==0.3.6
 dj-database-url==1.0.0
+dj-rest-auth==2.2.5
 Django==4.1.1
 django-environ==0.9.0
-django-rest-auth==0.9.5
 djangorestframework==3.13.1
 docker==4.4.4
 docker-compose==1.25.5
