@@ -15,7 +15,7 @@ from pathlib import Path
 import environ
 
 
-env = environ.Env().get_value
+env = environ.Env()
 environ.Env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
