@@ -199,9 +199,9 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
 
-# STATICFILES_DIRS = [
-#     BASE_DIR / 'frontend/build/static'
-# ]
+STATICFILES_DIRS = [
+    BASE_DIR / 'frontend/build/static'
+]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
