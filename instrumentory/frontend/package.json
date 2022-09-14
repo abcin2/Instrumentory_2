@@ -15,7 +15,7 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "relocate": "react-scripts build && rm -rf ../api/build && mv -f build ../api",
+    "relocate": "react-scripts build && rm -rf ../instrumentory/build && mv -f build ../instrumentory",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
