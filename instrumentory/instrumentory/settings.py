@@ -201,7 +201,7 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
     #BASE_DIR / 'frontend/build/static'
-    'instrumentory/frontend/build/static'
+    'frontend/build/static'
 ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
