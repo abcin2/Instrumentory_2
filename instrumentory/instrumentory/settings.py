@@ -118,7 +118,7 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'staticfiles/frontend/build'
+            BASE_DIR / 'staticfiles/build'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
@@ -200,7 +200,7 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
-    BASE_DIR / 'staticfiles/frontend/build/static'
+    BASE_DIR / 'frontend/build/static'
 ]
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
