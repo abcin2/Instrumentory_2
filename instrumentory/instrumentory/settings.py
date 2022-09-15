@@ -199,8 +199,8 @@ STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATIC_URL = '/static/'
 
-STATICFILES_DIR = [
-    BASE_DIR / 'staticfiles/build/static'
+STATICFILES_DIRS = [
+    BASE_DIR / 'staticfiles/frontend/build/static'
     #'staticfiles/build/static'
 ]
 
