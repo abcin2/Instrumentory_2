@@ -43,7 +43,7 @@ function Register() {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/districts/`)
         let data = await response.json()
         setDistrictData(data)
-        console.log(data)
+        //console.log(data)
         for (let i = 0; i < data.length; i++) {
             district_array.push(data[i].name)
         }
@@ -52,13 +52,20 @@ function Register() {
     }
 
     let setSites = async () => {
+        let site_objects = []
+        let site_names = []
+
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/districts/`)
         let data = await response.json()
         for (let i = 0; i < data.length; i++) {
             if (data[i].name === district_input_value) {
-                setSiteOptions(data[i].site)
+                site_objects = data[i].site
             }
         }
+        for (let site of site_objects) {
+            site_names.push(site.name)
+        }
+        setSiteOptions(site_names)
     }
 
     // variables for each DOM step
@@ -130,41 +137,45 @@ function Register() {
         let broken_email = e.target.email.value.split('@')[0]
         if (e.target.password.value === e.target.confirm_password.value) {
             // if statement to check if district email matches what is in database
-            for (let i = 0; i < districtData.length; i++) {
-                if (districtData[i].name === district_input_value) {
-                    if (districtData[i].verify_district_email === e.target.email.value.split('@')[1]) {
-                        let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/register/`, {
-                            method: 'POST',
-                            headers: {
-                                'Content-Type': 'application/json'
-                            },
-                            body: JSON.stringify({
-                                'username': broken_email,
-                                'email': e.target.email.value,
-                                'password1': e.target.password.value,
-                                'password2': e.target.confirm_password.value,
-                                'group': role,
-                                'school_district': district_input_value,
-                                'school_site': site_input_value,
-                                // need to find a way to confirm district
-                                // for now district also includes what all district emails should be
-                                // teachers and students can verify with district mail in order to ensure they are really part of the district
+            if (districtData.length !== 0) {  
+                for (let i = 0; i < districtData.length; i++) {
+                    if (districtData[i].name === district_input_value) {
+                        if (districtData[i].verify_district_email === e.target.email.value.split('@')[1]) {
+                            let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/register/`, {
+                                method: 'POST',
+                                headers: {
+                                    'Content-Type': 'application/json'
+                                },
+                                body: JSON.stringify({
+                                    'username': broken_email,
+                                    'email': e.target.email.value,
+                                    'password1': e.target.password.value,
+                                    'password2': e.target.confirm_password.value,
+                                    'group': role,
+                                    'school_district': district_input_value,
+                                    'school_site': site_input_value,
+                                    // need to find a way to confirm district
+                                    // for now district also includes what all district emails should be
+                                    // teachers and students can verify with district mail in order to ensure they are really part of the district
+                                })
                             })
-                        })
-                        // eslint-disable-next-line
-                        let user_data = await response.json()
-                        if (response.ok) {
-                            // try to update group and school info here
-                            history('/verify_email_sent/')
+                            // eslint-disable-next-line
+                            let user_data = await response.json()
+                            if (response.ok) {
+                                // try to update group and school info here
+                                history('/verify_email_sent/')
+                            } else {
+                                alert('Something went wrong!')
+                            }
                         } else {
-                            alert('Something went wrong!')
+                            alert('You must use your email associated with the school district you have selected.')
                         }
                     } else {
-                        alert('You must use your email associated with the school district you have selected.')
+                        alert('The school district you have entered does not exist in database. Please contact us so way may add your district to our records.')
                     }
-                } else {
-                    alert('The school district you have entered does not exist in database. Please contact us so way may add your district to our records.')
                 }
+            } else {
+                alert("We were not able to find any district information. Please ensure you are connected to the internet and try again later.")
             }
 
         } else {

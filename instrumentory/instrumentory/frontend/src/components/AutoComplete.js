@@ -11,9 +11,10 @@ function AutoComplete({ suggestions, placeholder, class_suggestions, class_sugge
     const [input, setInput] = useState("");
 
     const onChange = (e) => {
+        console.log(suggestions)
         const userInput = e.target.value;
     
-        // Filter our suggestions that don't contain the user's input
+        // Filter out suggestions that don't contain the user's input
         const unLinked = suggestions.filter(
           (suggestion) =>
             suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
