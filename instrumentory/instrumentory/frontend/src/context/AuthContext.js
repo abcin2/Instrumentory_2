@@ -42,11 +42,13 @@ export const AuthProvider = ({ children }) => {
                 localStorage.setItem('authTokens', JSON.stringify(data))
                 let groupResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${validationData['user']}`)
                 let groupData = await groupResponse.json()
-                if (groupData['groups'].length === 0) {
-                    history('/account_setup')
-                } else {
-                    history('/dashboard')
-                }
+                // if (groupData['groups'].length === 0) {
+                //     history('/account_setup')
+                // } else {
+                //     history('/dashboard')
+                // }
+                // above could be used in the future, but currently "/account_setup" is blank
+                history('/dashboard')
             } else {
                 return false
                 // alert('You must verify your email before you can use this account!')
