@@ -17,7 +17,7 @@ function VerifyEmailSent() {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/website_images/`);
         let data = await response.json()
         for (let i = 0; i < data.length; i++) {
-            if (data[i].image_name === 'Congratulations Background Image') {
+            if (data[i].image_name === 'successful_registration_image') {
                 setImage(data[i].image)
                 // console.log(data[i].image)
             }

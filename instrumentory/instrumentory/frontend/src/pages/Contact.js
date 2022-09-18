@@ -29,7 +29,7 @@ function Contact() {
         if (images.length !== 0) {
             const full_page = document.getElementById('contact-page-content');
             for (let i = 0; i < images.length; i++) {
-                if (images[i].image_name === 'contact_us_background') {
+                if (images[i].image_name === 'contact_background_image') {
                     // setImageOne(images[i].image)
                     full_page.style.backgroundImage = `url(${images[i].image})`
                 }

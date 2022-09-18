@@ -20,7 +20,7 @@ function Home() {
 
         if (images.length !== 0) {
             for (let i = 0; i < images.length; i++) {
-                if (images[i].image_name === 'music_teacher_one') {
+                if (images[i].image_name === 'home_banner_image') {
                     setImageOne(images[i].image)
                 }
             }

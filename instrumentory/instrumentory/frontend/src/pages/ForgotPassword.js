@@ -12,7 +12,7 @@ function ForgotPassword() {
         if (images.length !== 0) {
             const full_page = document.getElementById('forgot-full-page')
             for (let i = 0; i < images.length; i++) {
-                if (images[i].image_name === 'Login Background Image') {
+                if (images[i].image_name === 'register_background_image') {
                     full_page.style.backgroundImage = `url(${images[0].image})`
                 }
             }
