@@ -13,7 +13,6 @@ function AutoComplete({ suggestions, placeholder, class_suggestions, class_sugge
     const onChange = (e) => {
         console.log(suggestions)
         const userInput = e.target.value;
-    
         // Filter out suggestions that don't contain the user's input
         const unLinked = suggestions.filter(
           (suggestion) =>

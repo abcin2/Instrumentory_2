@@ -139,6 +139,7 @@ function Register() {
             // if statement to check if district email matches what is in database
             if (districtData.length !== 0) {  
                 for (let i = 0; i < districtData.length; i++) {
+                    // below code will execute for EACH district. This will need to be fixed
                     if (districtData[i].name === district_input_value) {
                         if (districtData[i].verify_district_email === e.target.email.value.split('@')[1]) {
                             let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/register/`, {
@@ -161,6 +162,7 @@ function Register() {
                             })
                             // eslint-disable-next-line
                             let user_data = await response.json()
+                            console.log(response)
                             if (response.ok) {
                                 // try to update group and school info here
                                 history('/verify_email_sent/')
