@@ -162,7 +162,6 @@ function Register() {
                             })
                             // eslint-disable-next-line
                             let user_data = await response.json()
-                            console.log(response)
                             if (response.ok) {
                                 // try to update group and school info here
                                 history('/verify_email_sent/')

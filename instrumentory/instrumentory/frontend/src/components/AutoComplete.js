@@ -11,9 +11,9 @@ function AutoComplete({ suggestions, placeholder, class_suggestions, class_sugge
     const [input, setInput] = useState("");
 
     const onChange = (e) => {
-        console.log(suggestions)
         const userInput = e.target.value;
         // Filter out suggestions that don't contain the user's input
+        // not showing suggestions for sites right away.. will eventually need to fix
         const unLinked = suggestions.filter(
           (suggestion) =>
             suggestion.toLowerCase().indexOf(userInput.toLowerCase()) > -1
@@ -61,13 +61,6 @@ function AutoComplete({ suggestions, placeholder, class_suggestions, class_sugge
             </div>
         );
         };
-
-        // document.addEventListener("click", (e) => {
-        //     // console.log(e.path[0])
-        //     console.log(document.activeElement === ref.current)
-        //     // console.log(document.activeElement)
-        //     // console.log(ref.current)
-        // }, false)
 
   return (
     <div>
