@@ -16,6 +16,7 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 from django.views.generic import TemplateView
+from dj_rest_auth.registration.views import VerifyEmailView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -31,8 +32,10 @@ urlpatterns = [
     path('register/', TemplateView.as_view(template_name='index.html')),
     path('forgot_password/', TemplateView.as_view(template_name='index.html')),
     path('verify_email_sent/', TemplateView.as_view(template_name='index.html')),
-    path('account_confirm_email/:key/', TemplateView.as_view(template_name='index.html')),
-    path('account_change_password/:id/:pk/:key', TemplateView.as_view(template_name='index.html')),
+    path('account_confirm_email/<str:key>/', TemplateView.as_view(template_name='index.html'), name='account_confirm_email'),
+    path('account_change_password/<str:id>/<str:pk>/<str:key>', TemplateView.as_view(template_name='index.html')),
+    # Allauth Routes
+    #path('account_confirm_email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),
     # Teacher Routes
     path('dashboard/', TemplateView.as_view(template_name='index.html')),
     path('dashboard_test/', TemplateView.as_view(template_name='index.html')),
@@ -41,5 +44,5 @@ urlpatterns = [
     path('loaned_instruments/', TemplateView.as_view(template_name='index.html')),
     path('broken_instruments/', TemplateView.as_view(template_name='index.html')),
     path('add_instrument/', TemplateView.as_view(template_name='index.html')),
-    path('update_instrument/:id/', TemplateView.as_view(template_name='index.html')),
+    path('update_instrument/<str:id>/', TemplateView.as_view(template_name='index.html')),
 ]

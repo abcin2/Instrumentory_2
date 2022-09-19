@@ -63,7 +63,7 @@ urlpatterns = [
    path('auth/logout/', LogoutView.as_view()),
    path('auth/account_confirm_email/', VerifyEmailView.as_view(), name='api-account-confirm-email-no-key'),
    # if the api call from this route is successful, email url is constructed from get_email_confirmation_url() in allauth/account/adapter.py
-   re_path(r'^auth/account_confirm_email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='account_confirm_email'),
+   re_path(r'^auth/account_confirm_email/(?P<key>[-:\w]+)/$', VerifyEmailView.as_view(), name='api-account-confirm-email'),
    path('auth/resend_email/', ResendEmailVerificationView.as_view(), name='resend_email_verification'),
    # after entering email, email is generated with link from dj_rest_auth/forms.py line 48
    path('auth/change_password/', PasswordResetView.as_view(), name='change-password'),
