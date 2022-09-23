@@ -41,6 +41,7 @@ export const AuthProvider = ({ children }) => {
                 setUser(jwt_decode(data.access))
                 localStorage.setItem('authTokens', JSON.stringify(data))
                 let groupResponse = await fetch(`${process.env.REACT_APP_BASE_URL}/api/users/${validationData['user']}`)
+                // eslint-disable-next-line
                 let groupData = await groupResponse.json()
                 // if (groupData['groups'].length === 0) {
                 //     history('/account_setup')
