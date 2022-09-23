@@ -161,7 +161,8 @@ function Register() {
                                 })
                             })
                             // eslint-disable-next-line
-                            let user_data = await response.json()
+                            // let user_data = await response.json() -> only returns database key NOT email key
+                            // console.log(user_data)
                             if (response.ok) {
                                 // try to update group and school info here
                                 history('/verify_email_sent/')

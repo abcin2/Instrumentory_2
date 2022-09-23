@@ -29,8 +29,9 @@ function AccountConfirmEmail() {
     const getEmail = async () => {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/auth/account_confirm_email/${key}`); // this is called from api/urls.py
         let data = await response.json()
-        console.log(data)
         setEmail(data.email ? data.email : 'account does not exist')
+
+        // need a new way to get email I think...
     }
 
     // activate account

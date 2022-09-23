@@ -7,7 +7,6 @@ from rest_framework_simplejwt.views import (
 
 from dj_rest_auth.registration.views import RegisterView, VerifyEmailView, ResendEmailVerificationView
 from dj_rest_auth.views import LoginView, LogoutView, PasswordResetView, PasswordResetConfirmView, PasswordChangeView
-# from allauth.account.views import confirm_email
 
 from .views import MyTokenObtainPairView
 
