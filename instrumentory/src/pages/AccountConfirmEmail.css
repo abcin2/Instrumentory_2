@@ -1,0 +1,63 @@
+#account-confirm-email-full-page {
+    position: absolute;
+    height: max-content;
+    width: 100vw;
+    top: 0;
+    left: 0;
+    background-repeat: no-repeat;
+    background-size: contain;
+    background-position: bottom;
+    text-align: center;
+}
+
+#account-confirm-email-full-page .page {
+    margin: 0 2rem 0 2rem;
+}
+
+#account-confirm-email-full-page h1 {
+    /* font-size: 3.25rem; */
+    font-size: clamp(2rem, 10vw, 3.25rem);
+    font-weight: 100;
+    margin-top: 8rem;
+    margin-bottom: 1rem;
+}
+
+#account-confirm-email-full-page h2,
+#account-confirm-email-full-page h2 i {
+    font-size: clamp(1.5rem, 5vw, 1.75rem);
+    font-weight: 100;
+    margin-bottom: 3rem;
+}
+
+#account-confirm-email-full-page h2 i {
+    color: var(--primary);
+}
+
+#account-confirm-email-full-page h3 {
+    margin-top: 3rem;
+    font-size: clamp(1rem, 3vw, 1.15rem);
+    font-weight: 100;
+    margin-bottom: clamp(3rem, 10vw, 8rem);
+}
+
+#account-confirm-email-full-page p {
+    font-weight: 100;
+}
+
+#account-confirm-email-full-page a {
+    font-weight: 500;
+    font-size: 1rem;
+}
+
+/* NON TEXT ELEMENTS */
+
+#congrats-image {
+    width: max(10rem, 15vw);
+    height: max(10rem, 15vw);
+}
+
+#activate-button {
+    width: 10rem;
+    height: 4rem;
+    font-size: 1.25rem;
+}
