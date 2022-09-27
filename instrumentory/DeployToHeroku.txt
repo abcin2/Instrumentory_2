@@ -1,1 +1,7 @@
+$ npm run build
+
+$ cd instrumentory
+$ arch -x86_64 python3 manage.py collectstatic
+
+$ cd ..
 $ arch -x86_64 git subtree push --prefix instrumentory heroku master
