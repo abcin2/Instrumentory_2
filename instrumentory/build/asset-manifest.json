@@ -1,13 +1,13 @@
 {
   "files": {
     "main.css": "https://instrumentory2.herokuapp.com/static/css/main.56aad66b.css",
-    "main.js": "https://instrumentory2.herokuapp.com/static/js/main.b274c8ef.js",
+    "main.js": "https://instrumentory2.herokuapp.com/static/js/main.e9a76763.js",
     "index.html": "https://instrumentory2.herokuapp.com/index.html",
     "main.56aad66b.css.map": "https://instrumentory2.herokuapp.com/static/css/main.56aad66b.css.map",
-    "main.b274c8ef.js.map": "https://instrumentory2.herokuapp.com/static/js/main.b274c8ef.js.map"
+    "main.e9a76763.js.map": "https://instrumentory2.herokuapp.com/static/js/main.e9a76763.js.map"
   },
   "entrypoints": [
     "static/css/main.56aad66b.css",
-    "static/js/main.b274c8ef.js"
+    "static/js/main.e9a76763.js"
   ]
 }
