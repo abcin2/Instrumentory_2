@@ -118,7 +118,8 @@ TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
         'DIRS': [
-            BASE_DIR / 'instrumentory/frontend/build'
+            #BASE_DIR / 'instrumentory/frontend/build'
+            BASE_DIR / 'staticfiles/build'
         ],
         'APP_DIRS': True,
         'OPTIONS': {
