@@ -1,6 +1,7 @@
 import './Home.css';
 
 import React, { useState, useEffect, useContext } from 'react';
+
 import AuthContext from '../context/AuthContext';
 
 import AuthHeader from '../components/AuthHeader';
@@ -17,20 +18,21 @@ function Home() {
     const [imageOne, setImageOne] = useState('');
 
     useEffect(() => {
-
+        // checks if images have been requested from DB
         if (images.length !== 0) {
+            // cycles through images and returns 'home_banner_image'
             for (let i = 0; i < images.length; i++) {
                 if (images[i].image_name === 'home_banner_image') {
                     setImageOne(images[i].image)
                 }
             }
+        // if images array is empty, it means that the images have not been returned from DB, so it needs to make the request again
         } else {
             getImages()
         }
-        
     }, [images])
 
-
+    // gets all images from database, stored in AWS
     let getImages = async () => {
         let response = await fetch(`${process.env.REACT_APP_BASE_URL}/api/website_images/`);
         let data = await response.json()
@@ -38,15 +40,9 @@ function Home() {
         setImages(data)
     }
 
-    // need to check if user is logged in to dynamically update the footer/header
-    // some links will be shared with pages that can be accessed w/ and w/o login
-
-    // I can log the user from auth context create a conditional with each header/footer type
-
   return (
     <div id="home-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
-        {/* Not sure if this worked, I will have to test it with another page */}
         <div className='page'>
             <div className='title'>
                 <img alt='A teacher helping a young musician play upright bass' id="home-image-one" src={imageOne} />
