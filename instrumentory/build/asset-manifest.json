@@ -1,13 +1,13 @@
 {
   "files": {
-    "main.css": "http://localhost:8000/static/css/main.074f219f.css",
-    "main.js": "http://localhost:8000/static/js/main.882919b1.js",
-    "index.html": "http://localhost:8000/index.html",
-    "main.074f219f.css.map": "http://localhost:8000/static/css/main.074f219f.css.map",
-    "main.882919b1.js.map": "http://localhost:8000/static/js/main.882919b1.js.map"
+    "main.css": "https://instrumentory2.herokuapp.com/static/css/main.074f219f.css",
+    "main.js": "https://instrumentory2.herokuapp.com/static/js/main.472f10ba.js",
+    "index.html": "https://instrumentory2.herokuapp.com/index.html",
+    "main.074f219f.css.map": "https://instrumentory2.herokuapp.com/static/css/main.074f219f.css.map",
+    "main.472f10ba.js.map": "https://instrumentory2.herokuapp.com/static/js/main.472f10ba.js.map"
   },
   "entrypoints": [
     "static/css/main.074f219f.css",
-    "static/js/main.882919b1.js"
+    "static/js/main.472f10ba.js"
   ]
 }
