@@ -1,3 +1,5 @@
+make sure to change the .env files back to the prod url!
+
 $ npm run build
 
 $ cd instrumentory
