@@ -43,7 +43,7 @@ function Home() {
   return (
     <div id="home-full-page">
         {user ? <AuthHeader /> : <GenHeader />}
-        <div className='page'>
+        <div id='homepage-page' className='page'>
             <div className='title'>
                 <img alt='A teacher helping a young musician play upright bass' id="home-image-one" src={imageOne} />
                 <div id="title-text">
@@ -97,7 +97,7 @@ function Home() {
             </div>
             <div id="home-section-four">
                 <div className='s4-container'>
-                    Instrumentory will now send notifications to students and parents when it is time to return their instrument!
+                    Instrumentory will now send notifications to students and parents when it is time to return their instrument! <i>(coming soon...)</i>
                 </div>
             </div>
         </div>

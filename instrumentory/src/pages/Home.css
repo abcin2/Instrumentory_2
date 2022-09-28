@@ -9,6 +9,10 @@
     background-position: bottom;
 }
 
+#homepage-page {
+    margin-bottom: 0rem;
+}
+
 /* ALL SECTIONS */
 .title {
     position: relative;
@@ -209,7 +213,7 @@
     align-items: center;
     position: relative;
     width: 100vw;
-    min-height: 26rem;
+    min-height: 16rem;
     max-height: max-content;
     background-color: white;
 }
