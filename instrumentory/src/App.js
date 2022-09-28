@@ -26,7 +26,16 @@ import Account from './pages/Account';
 
 function App() {
 
-  // add all routes to 'models.py'  
+  // in theory, this should keep the heroku dyno awake
+  setInterval(async () => {
+    let response = await fetch('https://instrumentory2.herokuapp.com/')
+    let data = response.ok
+    if (data) {
+      console.log('Waking up Heroku Dyno')
+    } else {
+      console.log('Could not keep Heroku Dyno awake... sorry')
+    }
+  }, 25 * 60 * 1000)
 
   return (
     <div id="test" className="App">
@@ -34,6 +43,11 @@ function App() {
       <Routes>
         {/* Example of using Header on only certain pages */}
         {/* <Route exact path="/" element={<><Header /><ExampleListPage /></>} /> */}
+        {/* EXAMPLE ROUTE FOR SPECIFIC ID */}
+        {/* <Route exact path="example/:id" element={<ExamplePage />} /> */}
+
+        {/* NEED TO ADD ALL ROUTES TO MODELS.PY!!!! */}
+
         {/* General Routes */}
         <Route exact path="/" element={<AuthProvider><Home /></AuthProvider>} />
         <Route exact path="contact/" element={<AuthProvider><Contact /></AuthProvider>} />
@@ -54,8 +68,6 @@ function App() {
         <Route exact path="broken_instruments/" element={<AuthProvider><PrivateRoute><BrokenInstruments /></PrivateRoute></AuthProvider>} />
         <Route exact path="add_instrument/" element={<AuthProvider><PrivateRoute><AddInstrument /></PrivateRoute></AuthProvider>} />
         <Route exact path="update_instrument/:id/" element={<AuthProvider><PrivateRoute><UpdateInstrument /></PrivateRoute></AuthProvider>} />
-        {/* EXAMPLE ROUTE FOR SPECIFIC ID */}
-        {/* <Route exact path="example/:id" element={<ExamplePage />} /> */}
       </Routes>
     </div>
   );
