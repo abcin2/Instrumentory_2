@@ -9,11 +9,6 @@ function AuthFooter() {
 
     let {logoutUser} = useContext(AuthContext);
 
-    // need to check if user is logged in to dynamically update the footer
-    // some links will be shared with pages that can be accessed w/ and w/o login
-    // same with header too actually
-    // might be better to add this functionality on each page...
-
   return (
     <div id="full-footer">
         <div id="full-footer-top">
@@ -105,7 +100,7 @@ function AuthFooter() {
             </div> */}
         </div>
         <div id="full-footer-bottom">
-            Last updated, May 17 2022.
+            Last updated, September 28 2022.
         </div>
     </div>
   )
