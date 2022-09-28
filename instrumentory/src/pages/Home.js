@@ -82,7 +82,7 @@ function Home() {
             <div id="home-section-three">
                 <div className='s3-container'>
                     <div id="home-s3-header">
-                        <h3>Take inventory at the end of each year! <i>(coming soon...)</i></h3>
+                        <h3>Take inventory at the end of each year!</h3>
                         <p>So easy, a student could do it!</p>
                     </div>
                     <div id="home-s3-steps">
@@ -94,10 +94,20 @@ function Home() {
                         <p>Instrumentory lists what you are missing and the last person in possession of the instrument!</p>
                     </div>
                 </div>
+                <div className='overlay'>
+                    <div className='overlay-text'>
+                        <i>coming soon...</i>
+                    </div>
+                </div>
             </div>
             <div id="home-section-four">
                 <div className='s4-container'>
-                    Instrumentory will now send notifications to students and parents when it is time to return their instrument! <i>(coming soon...)</i>
+                    Instrumentory will now send notifications to students and parents when it is time to return their instrument!
+                </div>
+                <div className='overlay'>
+                    <div className='overlay-text'>
+                        <i>coming soon...</i>
+                    </div>
                 </div>
             </div>
         </div>

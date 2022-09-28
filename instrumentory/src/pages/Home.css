@@ -218,6 +218,39 @@
     background-color: white;
 }
 
+/* ----------------------------------------------------------- */
+
+.overlay {
+    position: absolute;
+    display: flex;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 100%;
+    width: 100%;
+    opacity: 0;
+    transition: .5s ease;
+    background-color: rgb(152, 182, 218);
+}
+
+.overlay-text {
+    width: max-content;
+    height: max-content;
+    text-align: center;
+    font-size: 5vw;
+    margin: auto;
+}
+
+#home-section-three:hover .overlay,
+#home-section-three:focus .overlay,
+#home-section-four:hover .overlay,
+#home-section-four:focus .overlay {
+    opacity: 0.95;
+}
+
+/* ----------------------------------------------------------- */
+
 @media (max-width: 52rem) {
     #home-section-two {
         display: block;
