@@ -82,7 +82,7 @@ function Home() {
             <div id="home-section-three">
                 <div className='s3-container'>
                     <div id="home-s3-header">
-                        <h3>Take inventory at the end of each year!</h3>
+                        <h3>Take inventory at the end of each year! <i>(coming soon...)</i></h3>
                         <p>So easy, a student could do it!</p>
                     </div>
                     <div id="home-s3-steps">
